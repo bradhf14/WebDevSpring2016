@@ -1,0 +1,1 @@
+This directory will contain all projects for CS5610 completed by Bradley Howe

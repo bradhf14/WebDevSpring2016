@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Working with CSS</title>
+    <!IDs are unique, whereas class are not (element can have multiple, can use on multiple elements)>
+    <link href="lectureStyle.css" rel="stylesheet"/>
+
+</head>
+<body>
+
+    <h1>Intro to CSS</h1>
+
+    <p style="color:red; background-color: Blue">This paragraph is red</p>
+    <p>this will take the last declared style from header style tags</p>
+    <!Blue will override the style in the header>
+    <!Element level, very specific, takes precedence>
+    <p class = "higherprec"; id="grey">this will be styled according to class tag</p>
+    <!ID is more specific than class, so ID takes precedence, then class, then element type>
+
+
+</body>
+</html>

@@ -10,18 +10,17 @@
 
     <title>Forms Page for Assignment Website</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
     <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
     <link href="css/dashboard.css" rel="stylesheet">
 
+
 </head>
 <body>
-
-
-
-
 
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -33,15 +32,17 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="home.html">Form Maker</a>
+            <a class="navbar-brand" href="Home.html">Form Maker</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="register.html">Register</a></li>
                 <li><a href="login.html">Login</a></li>
-                <li><a href="#">Username </a></li>
+                <li><a href="profile.html">Username </a></li>
                 <li><a href="#">Logout </a></li>
+
             </ul>
+
         </div>
     </div>
 </nav>
@@ -53,16 +54,73 @@
                 <li><a href="home.html">Home <span class="sr-only">(current)</span></a></li>
                 <li><a href="profile.html">Profile</a></li>
                 <li><a href="admin.html">Admin</a></li>
-                <li class = "active"><a href="forms.html">Forms</a></li>
+                <li class="active"><a href="forms.html">Forms</a></li>
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <h1 class="page-header">Forms</h1>
 
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Form Name</th>
+                    <th>Action</th>
 
-            <p>
-                Forms
-            </p>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control" placeholder="Form Name">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-ok"></span>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Registration Fomr</td>
+                    <td>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Contact List</td>
+                    <td>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>To do list</td>
+                    <td>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                        <button type="button" class="btn btn-default">
+                            <span class="glyphicon glyphicon-pencil"></span>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+
+
 
         </div>
     </div>
@@ -78,8 +136,6 @@
 <script src="../../assets/js/vendor/holder.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-
-
 
 
 

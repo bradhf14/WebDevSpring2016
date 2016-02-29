@@ -4,11 +4,12 @@
         .config(function($routeProvider){
             $routeProvider
                 .when("/", {
-                    templateUrl: "views/users/home.view.html"
+                    templateUrl: "views/home/home.view.html",
+                    controller: "views/home/home.controller.js"
                 })
                 .when('/register', {
                     templateUrl: 'views/users/register.view.html',
-                    controller: 'views/users/register.controller.js'
+                    controller: 'views/home/register.controller.js'
                 })
                 .when('/login', {
                     templateUrl: 'views/users/login.view.html',
@@ -29,6 +30,10 @@
                 .when('/forms', {
                     templateUrl: 'views/forms/forms.view.html',
                     //controller: 'views/forms/forms.controller.js'
+                })
+                .when('/form-fields', {
+                    templateUrl: 'views/forms/form-fields.view.html',
+                    //controller: 'views/forms/form-fields.controller.js'
                 })
                 .otherwise({
                     redirectTo: "/"

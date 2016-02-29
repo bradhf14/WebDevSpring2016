@@ -4,7 +4,7 @@
 (function(){
     "use strict";
     angular
-        .module("FormAppBuilder")
+        .module("FormBuilderApp")
         .controller("SidebarController", SidebarController);
 
     function SidebarController($scope, $location) {

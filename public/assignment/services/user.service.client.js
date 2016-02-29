@@ -1,4 +1,5 @@
 (function(){
+    "use strict";
     angular
         .module("FormBuilderApp")
         .factory("UserService", UserService);
@@ -21,7 +22,7 @@
 
 
         function findUserByUsernameAndPassword(username, password, callback){
-            for (int i = 0; i < users.length; i++){
+            for (i = 0; i < users.length; i++){
                 if(users[i].username == username){
                     if(users[i].password == password){
                         callback = "user found"

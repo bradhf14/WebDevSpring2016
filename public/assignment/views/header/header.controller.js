@@ -7,9 +7,14 @@
         .module("FormBuilderApp")
         .controller("HeaderController", HeaderController);
 
-    function HeaderController($scope, $location) {
-        //need to implement event handlers still!!!!
-        //console.log($location);
+    function HeaderController($scope, $location, $rootScope) {
+
         $scope.$location = $location;
+
+        this.logout = function(){
+
+            $rootScope.currentUser = null;
+            $location.url("/home");
+        }
     }
 })();

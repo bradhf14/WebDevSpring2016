@@ -3,13 +3,12 @@
  */
 
 (function(){
+    "use strict";
     angular
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
     function LoginController(UserService, $rootScope, $location) {
-
-        console.log("Hello from login controller");
 
         this.login = function(user)
         {

@@ -11,16 +11,13 @@
 
         //need to implement event handlers still!!!!
 
-        //console.log($location);
         $scope.$location = $location;
-        //console.log($rootScope);
-        //console.log($location);
-        //console.log($scope);
 
+        var loggedIn = false;
 
+        if($rootScope.currentUser != null){
+            loggedIn = true;
+        }
 
-        //On login, check if no one is logged in.  If not, show registration in header
-
-        //Highlight menu to reflect current location
     }
 })();

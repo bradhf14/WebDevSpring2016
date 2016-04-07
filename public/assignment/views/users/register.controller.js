@@ -12,10 +12,6 @@
 
         this.register = function(user)
         {
-            //console.log(user.username);
-            //console.log(user.password);
-            //console.log(user.email);
-
             if(user.password != user.password2 || !user.password || !user.password2)
             {
                 $rootScope.danger = "Your passwords don't match";
@@ -26,13 +22,13 @@
                     .createUser(user,function(response) {
                         if(response != null)
                         {
-                            console.log("the current user from register");
-                            console.log(response)
+
                             //store the new user object in the rootScope
                             $rootScope.currentUser = response;
                             $location.url("/profile");
                             //Use the $location service to navigate to the profile view
-                            //may use this new location in the future
+
+                            //may use this new location in the future, not sure yet
                             //$location.url("/profile/" + response._id);
                         }
                         else

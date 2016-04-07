@@ -24,11 +24,12 @@
                 })
                 .when('/admin', {
                     templateUrl: 'views/admin/admin.view.html',
-                    //controller: 'AdminController'
+                    controller: 'AdminController'
                 })
                 .when('/home', {
                     templateUrl: 'views/home/home.view.html',
-                    controller: 'HomeController'
+                    controller: 'HomeController',
+                    controllerAs: 'model'
                 })
                 .when('/forms', {
                     templateUrl: 'views/forms/forms.view.html',

@@ -1,3 +1,5 @@
+//useful in various parts of application, hence why we create this
+
 (function(){
     "use strict";
     angular
@@ -22,38 +24,33 @@
         ],
             createUser: createUser,
             updateUser: updateUser,
-            findUserByUsernameAndPassword: findUserByUsernameAndPassword
-
-
-            //findUserByCredentials: findUserByCredentials,
-
-           // setCurrentUser: setCurrentUser,
-           // getCurrentUser: getCurrentUser
+            deleteUserById: deleteUserById,
+            findUserByUsernameAndPassword: findUserByUsernameAndPassword,
+            findAllUsers: findAllUsers
         };
 
         return model;
 
-        //var;
-
-
         function findUserByUsernameAndPassword(username, password, callback){
 
+            var noUser = true;
             for (var i = 0; i < model.users.length; i++){
                 if(model.users[i].username == username){
                     if(model.users[i].password == password){
                         callback(model.users[i]);
+                        noUser = false;
                     }
                 }
             }
-
-            callback(null);
+            if(noUser == true) {
+                callback(null);
+            }
         }
 
         function findAllUsers(callback){
 
             callback(model.users);
         }
-
 
         //TODO: userCreate needs email field
         function createUser(user,callback){
@@ -62,7 +59,6 @@
                 username: user.username,
                 password: user.password,
                 _id: (new Date).getTime()
-
             };
 
             model.users.push(userCreate);
@@ -94,7 +90,6 @@
             }
 
         }
-
 
     }
 })();

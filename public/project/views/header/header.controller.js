@@ -4,12 +4,12 @@
 (function(){
     "use strict";
     angular
-        .module("FormBuilderApp")
+        .module("HousewivesApp")
         .controller("HeaderController", HeaderController);
 
     function HeaderController($scope, $location) {
         //need to implement event handlers still!!!!
-        //console.log($location);
+        console.log($location);
         $scope.$location = $location;
     }
 })();

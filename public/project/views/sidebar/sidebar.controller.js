@@ -4,18 +4,18 @@
 (function(){
     "use strict";
     angular
-        .module("FormBuilderApp")
+        .module("HousewivesApp")
         .controller("SidebarController", SidebarController);
 
     function SidebarController($scope, $location, $rootScope) {
 
         //need to implement event handlers still!!!!
 
-        //console.log($location);
+        console.log($location);
         $scope.$location = $location;
-        //console.log($rootScope);
-        //console.log($location);
-        //console.log($scope);
+        console.log($rootScope);
+        console.log($location);
+        console.log($scope);
 
 
 

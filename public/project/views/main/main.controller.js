@@ -2,7 +2,7 @@
 (function(){
     "use strict";
     angular
-        .module("FormBuilderApp")
+        .module("HousewivesApp")
         .controller("MainController", MainController);
     //Controller name, and function MainController
 

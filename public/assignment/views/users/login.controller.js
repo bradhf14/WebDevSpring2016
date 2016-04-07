@@ -8,28 +8,28 @@
         .controller("LoginController", LoginController);
 
     function LoginController(UserService, $rootScope, $location) {
-        var model = this;
 
-        model.login = login;
+        console.log("Hello from login controller");
 
-        function login(user)
+        this.login = function(user)
         {
+
             UserService
-                .login(user)
-                .then(
-                    function(response) {
-                        console.log("Login succeeded");
+                .findUserByUsernameAndPassword(user.Username, user.Password, function(response) {
+
+                    if(response != null){
+
+
                         //Store the user in the $rootScope
                         $rootScope.currentUser = response;
+
                         $rootScope.danger = null;
                         //Use the $location service to navigate to profile view
-                        $location.url("/profile/" + response.data._id);
-                    },
-                    function(error) {
-                        console.log("Login failed");
-                        $rootScope.danger = "Unable to login";
+                        $location.url("/profile");
+                        //$location.url("/profile/" + response.data._id);
+                        //
                     }
-                );
+                });
         }
     }
 })();

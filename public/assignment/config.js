@@ -1,35 +1,39 @@
 (function(){
     angular
-        .module("FormBuilderApp", ["ngRoute"])
+        .module("FormBuilderApp")
         .config(function($routeProvider){
             $routeProvider
                 .when("/", {
                     templateUrl: "views/home/home.view.html",
-                    controller: "views/home/home.controller.js"
+                    controller: "HomeController"
                 })
                 .when('/register', {
                     templateUrl: 'views/users/register.view.html',
-                    controller: 'views/home/register.controller.js'
+                    controller: 'RegisterController',
+                    controllerAs: "model"
                 })
                 .when('/login', {
                     templateUrl: 'views/users/login.view.html',
-                    controller: 'views/users/login.controller.js'
+                    controller: 'LoginController',
+                    controllerAs: "model"
                 })
                 .when('/profile', {
-                    templateUrl: 'views/users/profile.view.html'
-                    //controller: 'views/users/profile.controller.js'
+                    templateUrl: 'views/users/profile.view.html',
+                    controller: 'ProfileController',
+                    controllerAs: "model"
                 })
                 .when('/admin', {
                     templateUrl: 'views/admin/admin.view.html',
-                    //controller: 'views/admin/admin.controller.js'
+                    //controller: 'AdminController'
                 })
                 .when('/home', {
                     templateUrl: 'views/home/home.view.html',
-                    //controller: 'views/home/home.controller.js'
+                    controller: 'HomeController'
                 })
                 .when('/forms', {
                     templateUrl: 'views/forms/forms.view.html',
-                    //controller: 'views/forms/forms.controller.js'
+                    controller: 'FormController',
+                    controllerAs: "model"
                 })
                 .when('/form-fields', {
                     templateUrl: 'views/forms/form-fields.view.html',

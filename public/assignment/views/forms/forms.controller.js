@@ -11,8 +11,6 @@
         .controller("FormController", FormController);
 
     function FormController(FormService, $rootScope) {
-        console.log("Hello from form controller");
-        console.log($rootScope.currentUser);
 
         //TODO can't figure out how to update this.forms inside of callback function
         //Maybe try with scope angular
@@ -20,8 +18,6 @@
 
         });
 
-        console.log("Forms pulled from FormService logged below");
-        console.log(this.forms);
 
         this.addForm = function(form){
 

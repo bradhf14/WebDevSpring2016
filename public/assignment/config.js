@@ -39,7 +39,7 @@
                 })
                 .when('/form-fields', {
                     templateUrl: 'views/forms/form-fields.view.html',
-                    //controller: 'views/forms/form-fields.controller.js'
+                    controller: 'views/forms/form-fields.controller.js'
                 })
                 .otherwise({
                     redirectTo: "/"

@@ -9,7 +9,6 @@
         this.update = function(user){
             UserService.updateUser($rootScope.currentUser._id,user,function(response){
 
-                console.log(response);
             });
         }
     }

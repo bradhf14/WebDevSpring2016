@@ -1,6 +1,4 @@
-/**
- * Created by Bradley on 1/30/16.
- */
+
 var express = require('express');
 var app = express();
 app.use(express.static(__dirname + '/public'));

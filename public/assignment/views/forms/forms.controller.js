@@ -1,7 +1,3 @@
-/**
- * Created by Bradley on 2/21/16.
- */
-
 //possibly use ng-show for tabs
 // ng-show="tab===1", display this one, put this in html div's
 (function(){
@@ -10,14 +6,14 @@
         .module("FormBuilderApp")
         .controller("FormController", FormController);
 
-    function FormController(FormService, $rootScope) {
+    function FormController(FormService, $rootScope, $scope) {
+
+        this.form ={};
 
         //TODO can't figure out how to update this.forms inside of callback function
         //Maybe try with scope angular
         this.forms = FormService.findAllFormsForUser($rootScope.currentUser._id, function(usersForms){
-
         });
-
 
         this.addForm = function(form){
 
@@ -31,7 +27,7 @@
 
         this.updateForm = function(form){
 
-            FormService.updateFormById(form._id,form.title, function(form){
+            FormService.updateFormById(this.form._id,form.title, function(form){
 
             });
             this.forms = FormService.findAllFormsForUser($rootScope.currentUser._id, function(usersForms){
@@ -48,13 +44,13 @@
             });
         };
 
-        this.selectForm = function(form){
+        this.selectForm = function(index){
 
-            console.log('this is called')
-            this.selectedForm = {"title": "test form"};
-
-            console.log(this.selectedForm.title);
-
+            this.form = {
+                _id: this.forms[index]._id,
+                title: this.forms[index].title,
+                userId: this.forms[index].userId
+            };
 
             this.forms = FormService.findAllFormsForUser($rootScope.currentUser._id, function(usersForms){
 

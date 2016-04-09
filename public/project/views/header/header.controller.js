@@ -9,7 +9,6 @@
 
     function HeaderController($scope, $location) {
         //need to implement event handlers still!!!!
-        console.log($location);
         $scope.$location = $location;
     }
 })();

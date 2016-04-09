@@ -44,10 +44,10 @@
         }
 
         //TODO see if this works as logically expected
-        function deleteFormbById(formId, callback){
+        function deleteFormbById(formid, callback){
 
             for (var i = 0; i < this.forms.length; i++){
-                if(this.forms[i]._id == formId){
+                if(this.forms[i]._id == formid){
                     this.forms.splice(i,1);
                 }
             }
@@ -55,13 +55,10 @@
         }
 
         function updateFormById(formId, newForm, callback){
-
             for (var i = 0; i < this.forms.length; i++){
-                if(this.forms[i]._id == formId){
-                    this.forms[i].title = newForm;
-
-                    console.log('updated form');
-                    console.log(this.forms[i]);
+                if(this.forms[i]._id == formid){
+                    this.forms[i].title = newForm.title;
+                    this.forms[i].userId = newForm.userId;
                     callback(this.forms[i]);
                 }
             }

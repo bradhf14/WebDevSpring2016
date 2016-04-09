@@ -11,13 +11,7 @@
 
         //need to implement event handlers still!!!!
 
-        console.log($location);
         $scope.$location = $location;
-        console.log($rootScope);
-        console.log($location);
-        console.log($scope);
-
-
 
         //On login, check if no one is logged in.  If not, show registration in header
 

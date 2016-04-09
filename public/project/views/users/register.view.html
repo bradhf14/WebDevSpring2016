@@ -1,0 +1,43 @@
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">Sign Up</h1>
+
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="inputEmail" class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-6">
+                <input ng-model = "user.email" type="email" class="form-control" id="inputEmail" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputUsername" class="col-sm-3 control-label">Username</label>
+            <div class="col-sm-6">
+                <input ng-model = "user.username" type="text" class="form-control" id="inputUsername" placeholder="Username">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword" class="col-sm-3 control-label">Password</label>
+            <div class="col-sm-6">
+                <input ng-model = "user.password" type="password" class="form-control" id="inputPassword" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPasswordVerify" class="col-sm-3 control-label">Verify Password</label>
+            <div class="col-sm-6">
+                <input ng-model = "user.password2" type="password" class="form-control" id="inputPasswordVerify" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <!--TODO remove the style tag here-->
+            <div class="col-sm-12" style="text-align:center; vertical-align:middle">
+                <input  ng-model = "user.housewifeStatus" type="checkbox"  id="housewifeStatus"> Are you a Housewife?
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <a ng-click="model.register(user)" class="btn btn-block btn-primary">Continue</a>
+            </div>
+        </div>
+    </form>
+
+</div>

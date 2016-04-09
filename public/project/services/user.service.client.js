@@ -16,13 +16,24 @@
                 "username":"alice",  
                 "password":"alice",
                 "roles": ["fan"],
-                "cities" : ["BH","NYC"]
-
+                "cities": [{
+                    city: "NYC",
+                    View: true,
+                    Season: 8,
+                    Episode: 1
+                }, {
+                    city: "BH",
+                    View: true,
+                    Season: 3,
+                    Episode: 5
+                }],
             }
 
         ],
+            city: ["OC", "NYC", "NJ", "ATL", "BH"],
             createUser: createUser,
             addCities: addCities,
+            addCityStatus: addCityStatus,
             updateUser: updateUser,
             deleteUserById: deleteUserById,
             findUserByUsernameAndPassword: findUserByUsernameAndPassword,
@@ -31,14 +42,15 @@
 
         return model;
 
-        //TODO: userCreate needs email field
         function createUser(user,callback){
 
             var userCreate = {
                 username: user.username,
                 password: user.password,
                 email: user.email,
-                _id: (new Date).getTime()
+                _id: (new Date).getTime(),
+                roles: "Fan",
+                cities:[]
             };
 
             model.users.push(userCreate);
@@ -47,13 +59,37 @@
         }
 
         //Adds City to user
-        function addCities(user,callback){
+        function addCities(user, username, password, callback){
 
             for (var i = 0; i < model.users.length; i++){
                 if(model.users[i].username == username){
                     if(model.users[i].password == password){
-                        model.users[i].cities = user.cities;
-                        callback(model.user[i].cities);
+                        //TODO make this 5 dynamic for number of cities/franchises
+                        for(var j = 0; j<5; j++){
+                            var cityToAdd = {
+                                city: this.city[j],
+                                View: user.city[j],
+                                Season: 0,
+                                Episode: 0
+                            };
+                            model.users[i].cities.push(cityToAdd);
+                        }
+                        callback(model.users[i]);
+                    }
+                }
+            }
+        }
+
+        function addCityStatus(user, username, password, callback){
+            for (var i = 0; i < model.users.length; i++){
+                if(model.users[i].username == username){
+                    if(model.users[i].password == password){
+                        //TODO make this 5 dynamic for number of cities/franchises
+                        for(var j = 0; j<5; j++){
+                            model.users[i].cities[j].Season = user.Season[j];
+                            model.users[i].cities[j].Episode = user.Episode[j];
+                        }
+                        callback(model.users[i]);
                     }
                 }
             }
@@ -80,8 +116,6 @@
 
             callback(model.users);
         }
-
-
 
         //TODO: Check logic
         function deleteUserById(userId, callback){

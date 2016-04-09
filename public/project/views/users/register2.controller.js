@@ -8,24 +8,25 @@
     function Register2Controller($rootScope, UserService, $location) {
 
 
+        console.log("this is currently the user in rootscope");
+        console.log($rootScope.currentUser);
+
+        var rc2 = this;
+        rc2.register  =   register;
 
 
 
-
-            this.register = function(user)
+            function register(user)
             {
                     UserService
-                        .addCities(user,function(response) {
+                        .addCities(user, $rootScope.currentUser.username, $rootScope.currentUser.password,function(response) {
+                                console.log("This is the response from add cities function");
+                                console.log(response);
                                 $rootScope.currentUser = response;
-                                $location.url("/register2");
+                                $location.url("/register3");
                         });
 
 
-
-            //Use the $location service to navigate to the profile view
-
-            //may use this new location in the future, not sure yet
-            //$location.url("/profile/" + response._id);
         }
     }
 })();

@@ -10,10 +10,17 @@
     //rootScope and location are angular services, UserService is service we created
     function RegisterController($rootScope, UserService, $location) {
 
+        console.log("Register Controller has been called")
 
-    //TODO This might have to change completely, add housewives radial button
-        this.register = function(user)
+        var rc1 = this;
+        rc1.register  =   register;
+
+
+        //TODO This might have to change completely, add housewives radial button
+
+        function register(user)
         {
+
             if(user.password != user.password2 || !user.password || !user.password2)
             {
                 $rootScope.danger = "Your passwords don't match";

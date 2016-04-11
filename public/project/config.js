@@ -48,6 +48,11 @@
                     controller: 'HousewifeForumController',
                     controllerAs: "model"
                 })
+                .when('/fanForum', {
+                    templateUrl: 'views/FanForum/fanForum.view.html',
+                    controller: 'FanForumController',
+                    controllerAs: "model"
+                })
                 .otherwise({
                     redirectTo: "/"
                 });

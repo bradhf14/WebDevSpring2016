@@ -2,13 +2,12 @@
     "use strict";
     angular
         .module("HousewivesApp")
-        .controller("HousewifeForumController", HousewifeForumController);
+        .controller("FanForumController", FanForumController);
 
-    function HousewifeForumController(ForumService, UserService, $rootScope, $location) {
+    function FanForumController(ForumService, UserService, $rootScope, $location) {
 
-        console.log("hello from housewife forum controller");
+        console.log("hello from fan forum controller");
 
-        console.log($rootScope.currentUser.roles)
         var hwf = this;
         hwf.post  =   post;
         hwf.posts = ForumService.getAllPosts();

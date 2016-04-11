@@ -7,8 +7,18 @@
         .module("HousewivesApp")
         .controller("HeaderController", HeaderController);
 
-    function HeaderController($scope, $location) {
+    function HeaderController($scope, $location, $rootScope) {
         //need to implement event handlers still!!!!
         $scope.$location = $location;
+
+        var head = this;
+        head.logout = logout;
+
+
+        function logout(){
+
+            $rootScope.currentUser = null;
+            $location.url("/home");
+        }
     }
 })();

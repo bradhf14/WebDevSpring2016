@@ -16,7 +16,7 @@
                 "name": "Kenya Moore",
                 "username":"Keyonce",  
                 "password":"shade",
-                "roles": ["housewife"],
+                "roles": ["Housewife"],
                 "city": "The Real Housewives of Atlanta"
             },
 

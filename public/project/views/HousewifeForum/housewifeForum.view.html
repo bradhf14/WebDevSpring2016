@@ -1,4 +1,9 @@
 <!--  Review Form -->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
 <form name="wifeForum"  ng-submit="model.post(newPost)" novalidate>
 
     <!--  Live Preview
@@ -8,7 +13,19 @@
         <cite class="clearfix">—{{reviewCtrl.review.author}}</cite>
     </blockquote>-->
 
+
+    <ul>
+        <h4>Post's</h4>
+        <li ng-repeat="post in model.posts">
+            <blockquote>
+                <strong>{{post.city}} Stars</strong>
+                {{post.post}}
+                <cite class="clearfix">—{{post.hwName}}</cite>
+            </blockquote>
+        </li>
+    </ul>
     <!--  Review Form -->
+    <div ng-show = "currentUser.roles.indexOf('Housewife') >= 0" >
     <h4>Submit a Post</h4>
     <fieldset class="form-group">
         <select ng-model="newPost.city" class="form-control" ng-options="city for city in model.cities" title="City" required >
@@ -27,4 +44,8 @@
     <fieldset class="form-group">
         <input type="submit" class="btn btn-primary pull-right" value="Submit Review" />
     </fieldset>
+    </div>
 </form>
+            </div>
+        </div>
+    </div>

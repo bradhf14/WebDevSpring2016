@@ -1,8 +1,12 @@
-<div class="col-sm-3 col-md-2 sidebar" ng-controller = "SidebarController" ng-show ="currentUser">
+<div class="col-sm-3 col-md-2 sidebar" ng-controller = "SidebarController" ng-show ="currentUser && $location.url().indexOf('/register2')
+!= 0 && $location.url().indexOf('/register3') != 0">
     <ul class="nav nav-sidebar">
-        <li ng-class="{'active': $location.url().indexOf('/home') >= 0}"><a href="#/home">Home</a></li>
-        <li
+        <li ng-show="currentUser.roles.indexOf('Housewife') >= 0"
+            ng-class="{'active': $location.url().indexOf('/profileWife') >= 0}"><a href="#/profileWife">Profile</a></li>
+        <li ng-show="currentUser.roles.indexOf('Fan') >= 0"
             ng-class="{'active': $location.url().indexOf('/profile') >= 0}"><a href="#/profile">Profile</a></li>
+        <li ng-class="{'active': $location.url().indexOf('/housewifeForum') >= 0}"><a href="#/housewifeForum">Housewives Posts</a></li>
+        <li ng-class="{'active': $location.url().indexOf('/fanForum') >= 0}"><a href="#/fanForum">Fan Posts</a></li>
         <li ng-show="currentUser.roles.indexOf('admin') >= 0"
             ng-class="{'active': $location.url().indexOf('/admin') >= 0}"><a href="#/admin">Admin</a></li>
         <li

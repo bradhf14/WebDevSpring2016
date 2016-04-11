@@ -13,17 +13,29 @@
     function Register3Controller(UserService, $rootScope, $location) {
 
         console.log("hello from register 3 controller");
-        console.log($rootScope.currentUser.OCView);
+
 
         var rc3 = this;
         rc3.register  =   register;
+        rc3.cities = UserService.findAllCities();
+        rc3.Episode = {};
+        rc3.Season = {};
 
-        function register(user){
+        for(var i = 0; i < rc3.cities.length; i++){
+            rc3.Episode[rc3.cities[i]] = 0;
+            rc3.Season[rc3.cities[i]] = 0;
+        }
 
-            console.log("user passed to status function");
-            console.log(user);
+        function register(){
+
+
+            console.log("This is waht is now passed in with ng repeat");
+            console.log(rc3.cities);
+            console.log(rc3.Season);
+            console.log(rc3.Episode);
+
             UserService
-                .addCityStatus(user, $rootScope.currentUser.username, $rootScope.currentUser.password,function(response) {
+                .addCityStatus(rc3.Season, rc3.Episode, $rootScope.currentUser.username, $rootScope.currentUser.password,function(response) {
                     console.log("This is the response from add status function");
                     console.log(response);
                     $rootScope.currentUser = response;

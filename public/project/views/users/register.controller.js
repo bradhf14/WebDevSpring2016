@@ -16,29 +16,37 @@
         rc1.register  =   register;
 
 
+
+
         //TODO This might have to change completely, add housewives radial button
 
-        function register(user)
-        {
+        function register(user) {
 
-            if(user.password != user.password2 || !user.password || !user.password2)
-            {
-                $rootScope.danger = "Your passwords don't match";
-            }
-            else
-            {
-                UserService
-                    .createUser(user,function(response) {
-                        if(response != null)
-                        {   //store the new user object in the rootScope
+
+                if (user.password != user.password2 || !user.password || !user.password2) {
+                    $rootScope.danger = "Your passwords don't match";
+                }
+                else {
+
+                    if (user.housewifeStatus) {
+                        console.log("SWEET");
+                        UserService.createHousewife(user,function(response){
+
                             $rootScope.currentUser = response;
-                            $location.url("/register2");
-                        }
-                        else
-                        {
-                            $rootScope.danger = "Unable to register";
-                        }
-                    });
+                            $location.url("/register2Wife");
+                        });
+                    } else {
+                    UserService
+                        .createUser(user, function (response) {
+                            if (response != null) {   //store the new user object in the rootScope
+                                $rootScope.currentUser = response;
+                                $location.url("/register2");
+                            }
+                            else {
+                                $rootScope.danger = "Unable to register";
+                            }
+                        });
+                }
             }
         }
     }

@@ -11,75 +11,54 @@
                     <th>City</th>
                     <th>Season</th>
                     <th>Episode</th>
+                    <th>Add/Remove</th>
 
                 </tr>
                 </thead>
-                <tbody>
+                <tbody ng-repeat="(i,city) in model.cities">
                 <!--TODO Make array of all housewife franchises, and pull from that array using ng-repeat, don't hard code-->
-                <tr ng-show="currentUser.cities[0].View">
+                <tr ng-show="currentUser.cities[i].View">
                     <td>
-                        <p>The Real Housewives of Orange County</p>
+                        <p>{{city}}</p>
                     </td>
                     <td>
-                        <input type="number" name="OCseason" ng-model = "user.Season[0]">
+                        <input type="number" name="season" ng-model = "currentUser.cities[i].Season">
                     </td>
                     <td>
-                        <input type="number" name="OCepisode" ng-model = "user.Episode[0]">
-                    </td>
-                </tr>
-                <tr ng-show="currentUser.cities[1].View">
-                    <td>
-                        <p>The Real Housewives of New York City</p>
+                        <input type="number" name="episode" ng-model = "currentUser.cities[i].Episode">
                     </td>
                     <td>
-                        <input type="number" name="NYCseason" ng-model = "user.Season[1]">
-                    </td>
-                    <td>
-                        <input type="number" name="NYCepisode" ng-model = "user.Episode[1]">
-                    </td>
-                </tr>
-                <tr ng-show="currentUser.cities[2].View">
-                    <td>
-                        <p>The Real Housewives of New Jersey</p>
-                    </td>
-                    <td>
-                        <input type="number" name="NJseason" ng-model = "user.Season[2]">
-                    </td>
-                    <td>
-                        <input type="number" name="NJepisode" ng-model = "user.Episode[2]">
-                    </td>
-                </tr>
-                <tr ng-show="currentUser.cities[3].View">
-                    <td>
-                        <p>The Real Housewives of Atlanta</p>
-                    </td>
-                    <td>
-                        <input type="number" name="ATLseason" ng-model = "user.Season[3]">
-                    </td>
-                    <td>
-                        <input type="number" name="ATLepisode" ng-model = "user.Episode[3]">
-                    </td>
-                </tr>
-                <tr ng-show="currentUser.cities[4].View">
-                    <td>
-                        <p>The Real Housewives of Beverly Hills</p>
-                    </td>
-                    <td>
-                        <input type="number" name="BHseason" ng-model = "user.Season[4]">
-                    </td>
-                    <td>
-                        <input type="number" name="BHepisode" ng-model = "user.Episode[4]">
+                        <button type="button" ng-click="model.removeCity(i)" class="btn btn-default">
+                            <span class="glyphicon glyphicon-minus"></span>
+                        </button>
                     </td>
                 </tr>
 
+
+                <tr ng-show="i == (currentUser.cities.length - 1)">
+                    <td>
+                        <select id="newCity" ng-model = "user.addCity" >
+                            <option ng-repeat="unwatch in model.unwatched">{{unwatch}}</option>
+                        </select>
+
+
+                    </td>
+                    <td>
+                        <input type="number" name="newSeason" ng-model = "user.addSeason">
+                    </td>
+                    <td>
+                        <input type="number" name="newEpisode" ng-model = "user.addEpisode">
+                    </td>
+                    <td>
+                        <button type="button" ng-click="model.addCity(user)" class="btn btn-default">
+                            <span class="glyphicon glyphicon-plus"></span>
+                        </button>
+                    </td>
+                </tr>
 
                 </tbody>
             </table>
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-6">
-                    <a ng-click="model.register(user)" class="btn btn-block btn-primary">Finish</a>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>

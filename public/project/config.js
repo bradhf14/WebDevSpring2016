@@ -28,6 +28,26 @@
                     controller: 'ProfileController',
                     controllerAs: "model"
                 })
+                .when('/login', {
+                    templateUrl: 'views/login/login.view.html',
+                    controller: 'LoginController',
+                    controllerAs: "model"
+                })
+                .when('/profileWife', {
+                    templateUrl: 'views/profile/profileWife.view.html',
+                    controller: 'WifeProfileController',
+                    controllerAs: "model"
+                })
+                .when('/register2Wife', {
+                    templateUrl: 'views/users/register2Wife.view.html',
+                    controller: 'RegisterWifeController',
+                    controllerAs: "model"
+                })
+                .when('/housewifeForum', {
+                    templateUrl: 'views/HousewifeForum/housewifeForum.view.html',
+                    controller: 'HousewifeForumController',
+                    controllerAs: "model"
+                })
                 .otherwise({
                     redirectTo: "/"
                 });

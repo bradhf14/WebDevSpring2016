@@ -1,0 +1,30 @@
+<!--  Review Form -->
+<form name="wifeForum"  ng-submit="model.post(newPost)" novalidate>
+
+    <!--  Live Preview
+    <blockquote >
+        <strong>{{reviewCtrl.review.stars}} Stars</strong>
+        {{reviewCtrl.review.body}}
+        <cite class="clearfix">—{{reviewCtrl.review.author}}</cite>
+    </blockquote>-->
+
+    <!--  Review Form -->
+    <h4>Submit a Post</h4>
+    <fieldset class="form-group">
+        <select ng-model="newPost.city" class="form-control" ng-options="city for city in model.cities" title="City" required >
+            <option value="">Pick the city you are posting about...</option>
+        </select>
+    </fieldset>
+    <fieldset class="form-group">
+        <input ng-model="newPost.season" type="number" class="form-control" placeholder="Season"  title="Season" required />
+    </fieldset>
+    <fieldset class="form-group">
+        <input ng-model="newPost.episode" type="number" class="form-control" placeholder="Episode" title="Episode" required />
+    </fieldset>
+    <fieldset class="form-group">
+        <textarea ng-model="newPost.post" class="form-control" placeholder="Write post here..." title="Post"></textarea>
+    </fieldset>
+    <fieldset class="form-group">
+        <input type="submit" class="btn btn-primary pull-right" value="Submit Review" />
+    </fieldset>
+</form>

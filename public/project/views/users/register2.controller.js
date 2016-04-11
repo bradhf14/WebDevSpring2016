@@ -14,12 +14,22 @@
         var rc2 = this;
         rc2.register  =   register;
 
+        rc2.cities = UserService.findAllCities();
+        rc2.viewer = {};
+
+        for(var i = 0; i < rc2.cities.length; i++){
+            rc2.viewer[rc2.cities[i]] = false;
+        }
 
 
-            function register(user)
+            function register()
             {
+                console.log("This is waht is now passed in with ng repeat");
+                console.log(rc2.cities);
+                console.log(rc2.viewer);
+
                     UserService
-                        .addCities(user, $rootScope.currentUser.username, $rootScope.currentUser.password,function(response) {
+                        .addCities(rc2.viewer, $rootScope.currentUser.username, $rootScope.currentUser.password,function(response) {
                                 console.log("This is the response from add cities function");
                                 console.log(response);
                                 $rootScope.currentUser = response;

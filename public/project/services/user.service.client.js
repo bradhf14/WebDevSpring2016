@@ -13,12 +13,54 @@
 
             {   "_id": "1234",
                 "email" : "KenyaMoore@gmail.com",
+                "verified": true,
                 "name": "Kenya Moore",
                 "username":"Keyonce",  
                 "password":"shade",
                 "roles": ["Housewife"],
                 "city": "The Real Housewives of Atlanta"
             },
+
+                {   "_id": "01101",
+                    "email" : "a@gmail.com",
+                    "username":"alice",
+                    "password":"alice",
+                    "roles": ["Fan"],
+                    "cities": [{
+                        city: "The Real Housewives of Orange County",
+                        View: true,
+                        Season: 8,
+                        Episode: 1
+                    },{
+                        city: "The Real Housewives of New York City",
+                        View: true,
+                        Season: 4,
+                        Episode: 4
+                    },{
+                        city: "The Real Housewives of New Jersey",
+                        View: false,
+                        Season: 0,
+                        Episode: 0
+                    },{
+                        city: "The Real Housewives of Atlanta",
+                        View: false,
+                        Season: 0,
+                        Episode: 0
+                    }, {
+                        city: "The Real Housewives of Beverly Hills",
+                        View: false,
+                        Season: 0,
+                        Episode: 0
+                    }]
+                },
+
+                {   "_id": "12345",
+                    "email" : "AC@gmail.com",
+                    "name": "Andy Cohen",
+                    "username":"Andy",
+                    "password":"Wacha",
+                    "roles": ["Admin"]
+                },
 
                 {   "_id": "01101",
                     "email" : "a@gmail.com",
@@ -74,12 +116,12 @@
             findUserByUsernameAndPassword: findUserByUsernameAndPassword,
             createHousewife: createHousewife,
             addCityHousewife: addCityHousewife,
-
+            getUnverified: getUnverified,
+            verify: verify,
+            deny: deny,
 
             updateUser: updateUser,
             deleteUserById: deleteUserById
-
-
         };
 
         return model;
@@ -106,8 +148,9 @@
                 username: user.username,
                 password: user.password,
                 email: user.email,
+                verified: false,
                 _id: (new Date).getTime(),
-                roles: "Housewife",
+                roles: ["Housewife"],
                 city: ""
             };
 
@@ -144,8 +187,7 @@
                             model.users[i].cities[j].Season = userSea[this.city[j]];
                             model.users[i].cities[j].Episode = userEp[this.city[j]];
                         }
-                        console.log("this is what is called back");
-                        console.log(model.users[i]);
+
                         callback(model.users[i]);
                     }
                 }
@@ -154,7 +196,6 @@
 
         function findAllUnwatchedCities(user){
             var unwatched = [];
-
             for(var i = 0; i < this.city.length; i++) {
                 if(!user.cities[i].View){
                     unwatched.push(user.cities[i].city);
@@ -236,6 +277,40 @@
         function findAllCities(){
 
             return (model.city);
+        }
+
+        function getUnverified(){
+            var unverified = [];
+            for (var i = 0; i < model.users.length; i++){
+                if(model.users[i].roles[0] == 'Housewife'){
+                    if(model.users[i].verified == false){
+                        unverified.push(model.users[i]);
+
+                    }
+                }
+            }
+
+            return unverified;
+        }
+
+        function verify(wife){
+
+            for (var i = 0; i < model.users.length; i++){
+                if(model.users[i]._id == wife._id){
+                    model.users[i].verified = true;
+                }
+            }
+        }
+
+        //Deletes wife's profile, this isn't best practice, so therefore we might want to change this
+        function deny(wife){
+
+            for (var i = 0; i < model.users.length; i++){
+                if(model.users[i]._id == wife._id){
+                    model.users.splice(i, 1);
+
+                }
+            }
         }
 
         //TODO: Check logic

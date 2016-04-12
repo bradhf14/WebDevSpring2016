@@ -23,8 +23,8 @@
         function register(user) {
 
             UserService.addCityHousewife(user,$rootScope.currentUser.username, $rootScope.currentUser.password, function(response){
-                $rootScope = response;
-                console.log($rootScope);
+                $rootScope.currentUser = response;
+                $location.url("/profileWife");
             });
 
 

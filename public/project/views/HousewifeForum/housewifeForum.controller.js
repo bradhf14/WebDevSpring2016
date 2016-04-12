@@ -6,19 +6,19 @@
 
     function HousewifeForumController(ForumService, UserService, $rootScope, $location) {
 
-        console.log("hello from housewife forum controller");
 
-        console.log($rootScope.currentUser.roles)
         var hwf = this;
         hwf.post  =   post;
+
         hwf.posts = ForumService.getAllPosts();
         hwf.cities = UserService.findAllCities();
+        hwf.fanPosts = ForumService.getFanPosts($rootScope.currentUser);
+
 
         function post(newPost){
 
-            console.log("this is the post you are trying to post");
-            console.log(newPost);
             ForumService.createPost(newPost, $rootScope.currentUser);
+            hwf.fanPosts = ForumService.getFanPosts($rootScope.currentUser);
 
         }
     }

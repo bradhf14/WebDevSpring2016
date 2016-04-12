@@ -7,10 +7,8 @@
             ng-class="{'active': $location.url().indexOf('/profile') >= 0}"><a href="#/profile">Profile</a></li>
         <li ng-class="{'active': $location.url().indexOf('/housewifeForum') >= 0}"><a href="#/housewifeForum">Housewives Posts</a></li>
         <li ng-class="{'active': $location.url().indexOf('/fanForum') >= 0}"><a href="#/fanForum">Fan Posts</a></li>
-        <li ng-show="currentUser.roles.indexOf('admin') >= 0"
-            ng-class="{'active': $location.url().indexOf('/admin') >= 0}"><a href="#/admin">Admin</a></li>
-        <li
-            ng-class="{'active': $location.url().indexOf('/forms') >= 0}"><a href="#/forms">Forms</a></li>
+        <li ng-show="currentUser.roles.indexOf('Admin') >= 0"
+            ng-class="{'active': $location.url().indexOf('/admin') >= 0}"><a href="#/profileAdmin">Admin</a></li>
     </ul>
 </div>
 

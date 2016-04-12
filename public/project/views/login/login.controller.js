@@ -19,9 +19,13 @@
 
                         $rootScope.danger = null;
                         //Use the $location service to navigate to profile view
-                        $location.url("/profile");
-                        //$location.url("/profile/" + response.data._id);
-                        //
+                        if(response.roles[0] == 'Fan'){
+                            $location.url("/profile");
+                        }else if( response.roles[0] == 'Admin'){
+                            $location.url("/profileAdmin");
+                        }else{
+                            $location.url("/profileWife");
+                        }
                     }
                 });
         }

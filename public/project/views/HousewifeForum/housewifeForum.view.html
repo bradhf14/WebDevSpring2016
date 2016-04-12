@@ -15,12 +15,13 @@
 
 
     <ul>
-        <h4>Post's</h4>
-        <li ng-repeat="post in model.posts">
+        <!--TODO add time stamp to posts-->
+        <h4>Housewife Post's</h4>
+        <li ng-repeat="post in model.fanPosts">
             <blockquote>
-                <strong>{{post.city}} Stars</strong>
-                {{post.post}}
-                <cite class="clearfix">—{{post.hwName}}</cite>
+                <strong>{{post.post}} - </strong>
+                {{post.hwName}}
+                <cite class="clearfix">—{{post.city}}</cite>
             </blockquote>
         </li>
     </ul>

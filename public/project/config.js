@@ -53,6 +53,11 @@
                     controller: 'FanForumController',
                     controllerAs: "model"
                 })
+                .when('/profileAdmin', {
+                    templateUrl: 'views/profile/profileAdmin.view.html',
+                    controller: 'AdminProfileController',
+                    controllerAs: "model"
+                })
                 .otherwise({
                     redirectTo: "/"
                 });

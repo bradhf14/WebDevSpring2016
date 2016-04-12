@@ -1,0 +1,48 @@
+/*  landing page  */
+
+.navbar-bravo {
+    background-color: #21C7E3;
+    border-color: #080808;
+
+}
+
+body {
+    font-family: Helvetica;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #21C7E3;
+    border-color: #21C7E3;
+}
+
+
+
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+    color: #fff;
+    background-color: #03687E;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active {
+    color: #ffffff;
+    background-color: #03687E;
+    border-color: #03687E;
+}
+
+.nav-sidebar > .active > a, .nav-sidebar > .active > a:hover, .nav-sidebar > .active > a:focus {
+    background-color: #03687E;
+}
+
+ul {
+    list-style-type: none;
+}
+
+#siteintro {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}

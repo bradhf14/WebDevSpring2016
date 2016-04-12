@@ -3,8 +3,14 @@
 .navbar-bravo {
     background-color: #21C7E3;
     border-color: #080808;
-
 }
+.nav.navbar-nav.navbar-right li a {
+    color: white;
+}
+#siteName {
+    color: white;
+}
+
 
 body {
     font-family: Helvetica;

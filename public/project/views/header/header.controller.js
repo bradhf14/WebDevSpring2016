@@ -14,9 +14,7 @@
         var head = this;
         head.logout = logout;
 
-
         function logout(){
-
             $rootScope.currentUser = null;
             $location.url("/home");
         }

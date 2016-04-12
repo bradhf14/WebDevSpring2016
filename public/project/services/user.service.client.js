@@ -22,9 +22,9 @@
             },
 
                 {   "_id": "01101",
-                    "email" : "a@gmail.com",
-                    "username":"alice",
-                    "password":"alice",
+                    "email" : "bob@gmail.com",
+                    "username":"Bob",
+                    "password":"queen",
                     "roles": ["Fan"],
                     "cities": [{
                         city: "The Real Housewives of Orange County",
@@ -43,9 +43,9 @@
                         Episode: 0
                     },{
                         city: "The Real Housewives of Atlanta",
-                        View: false,
-                        Season: 0,
-                        Episode: 0
+                        View: true,
+                        Season: 6,
+                        Episode: 2
                     }, {
                         city: "The Real Housewives of Beverly Hills",
                         View: false,

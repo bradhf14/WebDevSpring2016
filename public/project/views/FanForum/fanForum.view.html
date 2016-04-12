@@ -7,12 +7,12 @@
             <form name="wifeForum"  ng-submit="model.post(newPost)" novalidate>
 
                 <ul>
-                    <h4>Post's</h4>
+                    <h4>Fan Post's</h4>
                     <li ng-repeat="post in model.posts">
                         <blockquote>
-                            <strong>{{post.city}} Stars</strong>
-                            {{post.post}}
-                            <cite class="clearfix">—{{post.hwName}}</cite>
+                            <strong>{{post.post}} - </strong>
+                            {{post.username}}
+                            <cite class="clearfix">—{{post.city}}</cite>
                         </blockquote>
                     </li>
                 </ul>

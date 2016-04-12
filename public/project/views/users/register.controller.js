@@ -10,13 +10,8 @@
     //rootScope and location are angular services, UserService is service we created
     function RegisterController($rootScope, UserService, $location) {
 
-        console.log("Register Controller has been called")
-
         var rc1 = this;
         rc1.register  =   register;
-
-
-
 
         //TODO This might have to change completely, add housewives radial button
 
@@ -29,7 +24,6 @@
                 else {
 
                     if (user.housewifeStatus) {
-                        console.log("SWEET");
                         UserService.createHousewife(user,function(response){
 
                             $rootScope.currentUser = response;

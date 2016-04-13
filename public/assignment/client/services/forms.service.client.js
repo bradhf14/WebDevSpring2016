@@ -7,16 +7,11 @@
         .module("FormBuilderApp")
         .factory("FormService", FormService);
 
-    function FormService() {
+    function FormService($http) {
 
         var model = {
-            forms : [
-                {"_id": "000", "title": "Contacts", "userId": 123},
-                {"_id": "010", "title": "ToDo",     "userId": 123},
-                {"_id": "020", "title": "CDs",      "userId": 234}
-            ],
 
-            CreateFormForUser: CreateFormForUser,
+            createFormForUser: createFormForUser,
             findAllFormsForUser: findAllFormsForUser,
             deleteFormById: deleteFormbById,
             updateFormById: updateFormById
@@ -24,47 +19,23 @@
 
         return model;
 
-        function CreateFormForUser(userId,form,callback){
+        //Remove all callbacks made by user
 
-            var toAdd = {"_id": (new Date).getTime(), "title": form, "userId": userId};
-            this.forms.push(toAdd);
-            callback(toAdd);
+        function createFormForUser(userId,form){
+            return $http.post ("/api/assignment/user/" + userId + "/form", form);
         }
 
-        function findAllFormsForUser(userId, callback){
-
-            var formsForUser=[];
-            for (var i = 0; i < this.forms.length; i++){
-                if(this.forms[i].userId == userId){
-                    formsForUser.push(this.forms[i]);
-                }
-            }
-            callback(formsForUser);
-            return formsForUser;
+        function findAllFormsForUser(userId){
+            return $http.get ("/api/assignment/user/" + userId + "/form");
         }
 
         //TODO see if this works as logically expected
-        function deleteFormbById(formId, callback){
-
-            for (var i = 0; i < this.forms.length; i++){
-                if(this.forms[i]._id == formId){
-                    this.forms.splice(i,1);
-                }
-            }
-            callback(this.forms);
+        function deleteFormbById(formId){
+            return $http.delete ("/api/assignment/form/" + formId);
         }
 
-        function updateFormById(formId, newForm, callback){
-
-            for (var i = 0; i < this.forms.length; i++){
-                if(this.forms[i]._id == formId){
-                    this.forms[i].title = newForm;
-
-                    console.log('updated form');
-                    console.log(this.forms[i]);
-                    callback(this.forms[i]);
-                }
-            }
+        function updateFormById(formId, newForm){
+            return $http.put ("/api/assignment/form/" + formId, newForm);
         }
     }
 })();

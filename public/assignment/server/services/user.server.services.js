@@ -25,9 +25,11 @@ module.exports = function(app, userModel, db) {
 
     }
 
+    //responds with an array of all users
     function allUsers(req,res){
 
-        //responds with an array of all users
+        var users = userModel.findAllUsers();
+        res.json(users);
     }
 
     //responds with a single user whose id property is equal to the id path parameter
@@ -38,18 +40,25 @@ module.exports = function(app, userModel, db) {
         res.json(user);
     }
 
+    //responds with a single user whose username property is equal to the username path parameter
     function usernameUser(req,res){
-        //responds with a single user whose username property is equal to the username path parameter
-        var username =  req.params.username;
+
+        //var username =  req.params.username;
+        //parse url for the username
+        var username = req.query.username;
         var user = userModel.findUserByUsername(username);
         res.json(user);
     }
 
+    // responds with a single user whose username property is equal to
+    // the username path parameter and its password is equal to the password path parameter
     function aliceUser(req,res){
-        // responds with a single user whose username property is equal to
-        // the username path parameter and its password is equal to the password path parameter
-        var cred = {username: req.params.username,
-                    password: req.params.password};
+
+        var username = req.query.username;
+        var password = req.query.password;
+        var cred = {username: username,
+                    password: password
+                   };
         var user = userModel.findUserByCredentials(cred);
         res.json(user);
     }
@@ -61,53 +70,18 @@ module.exports = function(app, userModel, db) {
 
         var updatedUser = req.body;
         var index = req.params.id;
-        var user = userModel.updateUser(index, updatedUser);
+        var user = userModel.updateUser(index, updatedUser);  //TODO maybe remove return statement from updateUser
         var users = userMode.findAllUsers();
         res.json(users);
        }
 
+    //removes an existing user whose id property is equal to the id path parameter.
+    // Responds with an array of all users
     function deleteID(req,res){
 
-        //removes an existing user whose id property is equal to the id path parameter.
-        // Responds with an array of all users
-    }
+        var id = req.params.id;
+        var users = userModel.deleteUser(id);
+        res.json(users);
 
-
-    app.post("/api/project/omdb/logout", logout);
-    app.post("/api/project/omdb/register", register);
-    app.get("/api/project/omdb/profile/:userId", profile);
-
-
-
-    function profile(req, res) {
-        var userId = req.params.userId;
-        var user = userModel.findUserById(userId);
-        var movieImdbIDs = user.likes;
-        var movies = movieModel.findMoviesByImdbIDs(movieImdbIDs);
-        user.likesMovies = movies;
-        res.json(user);
-    }
-
-    function register(req, res) {
-        var user = req.body;
-        user = userModel.createUser(user);
-        req.session.currentUser = user;
-        res.json(user);
-    }
-
-    function login(req, res) {
-        var credentials = req.body;
-        var user = userModel.findUserByCredentials(credentials);
-        req.session.currentUser = user;
-        res.json(user);
-    }
-
-    function loggedin(req, res) {
-        res.json(req.session.currentUser);
-    }
-
-    function logout(req, res) {
-        req.session.destroy();
-        res.send(200);
     }
 }

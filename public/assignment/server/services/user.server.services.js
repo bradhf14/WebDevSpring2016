@@ -1,21 +1,22 @@
 /**
  * Created by Bradley on 4/12/16.
  */
+
+//We take the model as an argument so we can CRUD the data
+
 module.exports = function(app, userModel, db) {
     app.post("/api/assignment/user", register);
     app.get("/api/assignment/user", allUsers);
     app.get("/api/assignment/user/:id", idUser);
-    app.get("GET /api/assignment/user?username=username", usernameUser);
+    app.get("/api/assignment/user?username=username", usernameUser);
     app.get("/api/assignment/user?username=alice&password=wonderland", aliceUser);
     app.put("/api/assignment/user/:id", updateID);
-    app.delete("DELETE /api/assignment/user/:id", deleteID);
+    app.delete("/api/assignment/user/:id", deleteID);
 
     //any additional mappings you might need
 
-
+    //creates a new user embedded in the body of the request, and responds with an array of all users
     function register(req,res){
-
-        //creates a new user embedded in the body of the request, and responds with an array of all users
 
         var user = req.body;                //TODO check if body is correct
         user = userModel.createUser(user);  //adds id tag, and stores in mock data
@@ -29,9 +30,8 @@ module.exports = function(app, userModel, db) {
         //responds with an array of all users
     }
 
+    //responds with a single user whose id property is equal to the id path parameter
     function idUser(req,res){
-
-        //responds with a single user whose id property is equal to the id path parameter
 
         var index = req.params.id;
         var user = userModel.findUserById(index);
@@ -54,12 +54,17 @@ module.exports = function(app, userModel, db) {
         res.json(user);
     }
 
+    //updates an existing user whose id property is equal to the id path parameter.
+    // The new properties are set to the values in the user object embedded in the HTTP
+    // request. Responds with an array of all users
     function updateID(req,res){
 
-        //updates an existing user whose id property is equal to the id path parameter.
-        // The new properties are set to the values in the user object embedded in the HTTP
-        // request. Responds with an array of all users
-    }
+        var updatedUser = req.body;
+        var index = req.params.id;
+        var user = userModel.updateUser(index, updatedUser);
+        var users = userMode.findAllUsers();
+        res.json(users);
+       }
 
     function deleteID(req,res){
 
@@ -71,9 +76,6 @@ module.exports = function(app, userModel, db) {
     app.post("/api/project/omdb/logout", logout);
     app.post("/api/project/omdb/register", register);
     app.get("/api/project/omdb/profile/:userId", profile);
-
-
-
 
 
 

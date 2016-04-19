@@ -12,14 +12,10 @@
             </ul>
 
 
-
-
             <table class = "table table-responsive">
                 <tbody>
 
                 <tr ng-repeat = "form in forms" ng-switch on="form.type">
-
-
 
                     <td ng-switch-when="TEXT">
                         <label for="inputFirstName">{{form.label}}</label>
@@ -30,7 +26,7 @@
                         <input type="text" class="form-control" id="inputLastName" placeholder="{{form.placeholder}}">
                     </td>
                     <td ng-switch-when="DATE">
-                        <label>Date of Birth:</label>
+                        <label>{{form.label}}</label>
                         <div class='input-group date' id='datetimepicker1'>
                             <input type='date' class="form-control" />
                                     <span class="input-group-addon">
@@ -44,42 +40,33 @@
                         </script>
                     </td>
                     <td ng-switch-when="OPTIONS">
-                        <label>Gender</label>
-                        <select class="form-control" id="sel1">
-                            <option>Male</option>
-                            <option>Female</option>
+                        <label>{{form.label}}</label>
+                        <select class="form-control" >
+                            <option ng-repeat="option in form.options">{{option.label}}</option>
                         </select>
                     </td>
                     <td ng-switch-when="CHECKBOXES">
-                        <label>Roles</label>
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">Admin</label>
+                        <label>{{form.label}}</label>
+                        <div class="checkbox" ng-repeat="option in form.options">
+                            <label ><input type="checkbox" value="">{{option.label}}</label>
                         </div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">Student</label>
-                        </div>
-                        <div class="checkbox">
-                            <label><input type="checkbox" value="">User</label>
-                        </div>
+
                     </td>
                     <td ng-switch-when="RADIOS">
-                        <label>License Agreement</label>
-                        <div class="radio">
-                            <label><input type="radio" name="optradio">Yes</label>
-                        </div>
-                        <div class="radio">
-                            <label><input type="radio" name="optradio">No</label>
+                        <label>{{form.label}}</label>
+                        <div class="radio" ng-repeat="option in form.options">
+                            <label><input type="radio" name="optradio">{{option.label}}</label>
                         </div>
                     </td>
 
                     <td>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default" ng-click = "model.showModal(form)">
                             <span class="glyphicon glyphicon-pencil"></span>
                         </button>
                         <button type="button" class="btn btn-default">
                             <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default" ng-click = "model.removeField(form)">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
                         <button type="button" class="btn btn-default">
@@ -88,18 +75,6 @@
                     </td>
 
                 </tr>
-
-
-
-
-
-
-
-
-
-
-
-
 
                 <tr>
                     <td>
@@ -126,69 +101,8 @@
             </table>
 
 
-            <div class="container">
 
-                <!-- Modal -->
-                <div class="modal fade" id="myModal" role="dialog">
-                    <div class="modal-dialog">
-                        <div class="modal-header ng-scope">{{model.fieldType}}</div>
-                        <div class="modal-body ng-scope" ng-switch="model.fieldType">
-                            <label for="label">Label: </label>
-                            <input ng-model="dialogField.label" type="text" class="form-control" id="label" placeholder="Enter a label">
-
-                            <div ng-switch-when="Single Line Text" >
-                                <label for="placeholdertext">Placeholder: </label>
-                                <input ng-model="dialogField.placeholder" type="text" class="form-control" id="placeholdertext" placeholder="Enter a placeholder">
-                            </div>
-
-                            <div ng-switch-when="Multi Line Text Field">
-                                <label  for="placeholder">Placeholder: </label>
-                                <input  ng-model="dialogField.placeholder" type="text" class="form-control" id="placeholder" placeholder="Enter a placeholder">
-                            </div>
-
-
-
-                            <div ng-switch-when="Dropdown Field">
-                                <label for="options">Options</label>
-                                    <select class="form-control" id="options">
-                                        <option>Toyota</option>
-                                        <option>Land Rover</option>
-                                        <option>Honda</option>
-                                        <option>Mercedez</option>
-                                </select>
-                            </div>
-
-                            <div ng-switch-when="Checkbox Field">
-                                <label ng-switch-when="Checkbox Field" for="checkboxes">Options</label>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" id = "checkboxes" value="">Admin</label>
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" id = "checkboxes"  value="">Student</label>
-                                </div>
-                                <div class="checkbox">
-                                    <label><input type="checkbox" id = "checkboxes"  value="">User</label>
-                                </div>
-                            </div>
-
-                            <div ng-switch-when="Radio Button Field">
-                                <label for="radios">Gender</label>
-                                <div class="radio" id="radios">
-                                    <label><input type="radio" name="optradio">Male</label>
-                                </div>
-                                <div class="radio" id="radios">
-                                    <label><input type="radio" name="optradio">Female</label>
-                                </div>
-                            </div>
-
-                            <div class="modal-footer ng-scope">
-                                <button class="btn btn-primary" type="button" ng-click="ok()">OK</button>
-                                <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-                            </div>
-                        </div>
-                    </div>
-
-            </div>
     </div>
 </div>
+    </div>
 

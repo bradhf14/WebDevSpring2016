@@ -8,7 +8,7 @@
 
         var fc = this;
 
-        fc.formId = $rootScope.formId;
+        fc.formId = $routeParams.formId;
         fc.userId = $routeParams.userId;
         //TODO figure out how to use $routeParams correctly
 

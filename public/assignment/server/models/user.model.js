@@ -75,7 +75,6 @@ module.exports = function() {
 
             if( users[u]._id == userId) {
 
-
                 users[u].firstName = updatedUser.firstName;
                 users[u].lastName = updatedUser.lastName;
                 users[u].username = updatedUser.username;
@@ -89,6 +88,7 @@ module.exports = function() {
 
     //should accept an ID as an argument, remove instance of object with that ID,
     //return updated list?
+    //need to check that this works (once we work with admin page)
     function deleteUser(userId){
         for (var u in users){
             if (users[u]._id == userId){

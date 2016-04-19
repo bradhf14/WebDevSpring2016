@@ -6,7 +6,7 @@
         .module("FormBuilderApp")
         .controller("FormController", FormController);
 
-    function FormController(FormService, $rootScope, $scope, FieldService) {
+    function FormController(FormService, $rootScope, $scope, FieldService, $routeParams) {
 
         this.form ={};
         $scope.formUpdate = {};
@@ -89,8 +89,14 @@
                 userId: $scope.forms[index].userId,
             };
 
-            $rootScope.formId = $scope.forms[index]._id;
+            $routeParams.formId = $scope.forms[index]._id;
 
         };
+
+
+        //TODO figure out better way of doing this
+        this.updateFormId = function(formid){
+            $routeParams.formId = formid;
+        }
     }
 })();

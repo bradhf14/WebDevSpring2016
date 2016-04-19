@@ -19,14 +19,11 @@ module.exports = function(app, userModel) {
     //creates a new user embedded in the body of the request, and responds with an array of all users
     function register(req,res){
 
-
         var user = req.body;                //TODO check if body is correct
         user = userModel.createUser(user);  //adds id tag, and stores in mock data
         //req.session.currentUser = user;     //assign current user of session (part of express.js)
         res.json(user);                     //return json object user, might need to switch to array of all users
-
     }
-
     function findAllUser(req, res){
         // parse the URL for the username
         // parse the URL for the password

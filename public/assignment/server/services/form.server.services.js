@@ -10,7 +10,6 @@ module.exports = function(app, formModel) {
     app.put("/api/assignment/form/:userId", updateForm);
     app.delete("/api/assignment/form/:formId", deleteForm);
 
-
     //request to create form whose properties are the same as the form object
     //embedded in the HTTP requests body and the form belongs to the user whose id is
     //equal to the userId path parameter
@@ -47,7 +46,6 @@ module.exports = function(app, formModel) {
         var forms = formModel.updateForm(id, updatedForm);
         res.json(forms);
     }
-
 
     //request to read to delete particular form (check id)
     //respond with the updated list of forms

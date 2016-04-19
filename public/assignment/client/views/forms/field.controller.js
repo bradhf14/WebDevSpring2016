@@ -37,8 +37,6 @@
             }
         }
 
-        //now that we have set up the fc implement the functions that this fc supports : removefield, addfield, and showmodal
-
         function removeField(field){
             var fieldId = field._id;
             FieldService
@@ -58,7 +56,13 @@
 
                     console.log("this is what is returned");
                     console.log(response);
-                    //findFieldsForFormAndSetScope();
+
+                    FieldService
+                        .getFieldsForForm(fc.formId)
+                        .then(function(response){
+
+                            $scope.forms = response.data
+                        })
                 });
         };
 
@@ -80,9 +84,9 @@
             });
             modalInstance.result
                 .then(function (field) {
-                    //once we edit using the modal, use the Field Servie to update the field
+                    //once we edit using the modal, use the Field Service to update the field
                     FieldService
-                        .updateField(vm.formId, field._id, field)
+                        .updateField(fc.formId, field._id, field)
                         .then(function() {
                             //not sure what goes here
                         });
@@ -101,46 +105,57 @@
     function ModalInstanceController($scope, $uibModalInstance, field) {
 
         var vm = this;
-
-
+        vm.fieldToEdit = {};
 
         if (field.type == "TEXT"){
-            vm.fieldTitle = "Single Line Field";
-            vm.fieldType = "TEXT";
+            vm.fieldToEdit.title = "Single Line Field";
+            vm.fieldToEdit.type = "TEXT";
         } else if (field.type == "TEXTAREA"){
-            vm.fieldTitle = "Multiple Lines Field";
-            vm.fieldType = "TEXTAREA";
+            vm.fieldToEdit.title = "Multiple Lines Field";
+            vm.fieldToEdit.type = "TEXTAREA";
         } else if (field.type == "DATE"){
-            vm.fieldTitle = "Date Field";
-            vm.fieldType = "DATE";
+            vm.fieldToEdit.title = "Date Field";
+            vm.fieldToEdit.type = "DATE";
         } else if (field.type == "OPTIONS"){
-            vm.fieldTitle = "Dropdown Field";
-            vm.fieldType = "OPTIONS";
+            vm.fieldToEdit.title = "Dropdown Field";
+            vm.fieldToEdit.type = "OPTIONS";
         } else if (field.type == "CHECKBOXES"){
-            vm.fieldTitle = "Checkbox Field";
-            vm.fieldType = "CHECKBOXES";
+            vm.fieldToEdit.title = "Checkbox Field";
+            vm.fieldToEdit.type = "CHECKBOXES";
         } else if (field.type == "RADIOS"){
-            vm.fieldTitle = "Radio Button Field";
-            vm.fieldType = "RADIOS";
+            vm.fieldToEdit.title = "Radio Button Field";
+            vm.fieldToEdit.type = "RADIOS";
         }
 
         vm.cancel = cancel;
         vm.update = update;
 
+        function update(f) {
 
-        console.log("hello from modal controller");
-        console.log(field);
-        console.log(field.type);
-        function update() {
-            var optionsTextFragments = vm.fieldToEdit.optionsText.split('\n'),
-                options = [];
-            angular.forEach(optionsTextFragments, function(optionTextFragment) {
-                var tokens = optionTextFragment.trim().split(';');
-                if (tokens.length === 2) {
-                    options.push({'label': tokens[0], 'value': tokens[1]});
-                }
-            });
-            vm.fieldToEdit.options = options;
+            console.log("these are the updated options");
+            console.log(f);
+            console.log(f.text);
+            var options = [];
+            var placeholder = "";
+
+            if(f.text) {
+                angular.forEach(f.text, function (f) {
+                    var tokens = f.trim().split(':');
+                    console.log("tokens");
+                    if (tokens.length == 2) {
+                        options.push({'label': tokens[0], 'value': tokens[1]});
+                    }
+                });
+
+                vm.fieldToEdit.options = options;
+            }
+
+            if(f.placeholder)
+            {
+                vm.fieldToEdit.placeholder = placeholder;
+            };
+
+            console.log(vm.fieldToEdit);
             $uibModalInstance.close(vm.fieldToEdit);
         };
 

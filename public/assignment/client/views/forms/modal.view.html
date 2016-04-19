@@ -1,30 +1,30 @@
 <div class="modal-dialog">
-    <div class="modal-header ng-scope">{{model.fieldTitle}}</div>
-    <div class="modal-body ng-scope" ng-switch="model.fieldType">
+    <div class="modal-header ng-scope">{{model.fieldToEdit.title}}</div>
+    <div class="modal-body ng-scope" ng-switch="model.fieldToEdit.type">
         <label for="label">Label: </label>
-        <input ng-model="dialogField.label" type="text" class="form-control" id="label" placeholder="Enter a label">
+        <input ng-model="updateField.label" type="text" class="form-control" id="label" placeholder="Enter a label">
 
         <label ng-switch-when="TEXT" for="placeholdertext">Placeholder: </label>
-        <input ng-switch-when="TEXT" ng-model="dialogField.placeholder" type="text" class="form-control" id="placeholdertext" placeholder="Enter a placeholder">
+        <input ng-switch-when="TEXT" ng-model="updateField.placeholder" type="text" class="form-control" id="placeholdertext" placeholder="Enter a placeholder">
 
         <label ng-switch-when="TEXTAREA" for="placeholder">Placeholder: </label>
-        <input ng-switch-when="TEXTAREA" ng-model="dialogField.placeholder" type="text" class="form-control" id="placeholder" placeholder="Enter a placeholder">
+        <input ng-switch-when="TEXTAREA" ng-model="updateField.placeholder" type="text" class="form-control" id="placeholder" placeholder="Enter a placeholder">
 
         <label ng-switch-when="OPTIONS" for="options">Options</label>
-        <textarea ng-switch-when="OPTIONS" ng-model="optionslist" ng-list="&#10;" id="options" type="text" class="form-control"  ng-trim="false">
+        <textarea ng-switch-when="OPTIONS" ng-model="updateField.text" ng-list="&#10;" id="options" type="text" class="form-control"  ng-trim="false">
         </textarea>
 
         <label ng-switch-when="CHECKBOXES" for="checkboxes">Options</label>
-        <textarea ng-switch-when="CHECKBOXES" ng-model="optionslist" ng-list="&#10;" id="checkboxes" type="text" class="form-control" ng-trim="false">
+        <textarea ng-switch-when="CHECKBOXES" ng-model="updateField.text" ng-list="&#10;" id="checkboxes" type="text" class="form-control" ng-trim="false">
         </textarea>
 
         <label ng-switch-when="RADIOS" for="radios">Options</label>
-        <textarea ng-switch-when="RADIOS" ng-model="optionslist" ng-list="&#10;" id="radios" type="text" class="form-control" ng-trim="false">
+        <textarea ng-switch-when="RADIOS" ng-model="updateField.text" ng-list="&#10;" id="radios" type="text" class="form-control" ng-trim="false">
         </textarea>
 
     </div>
     <div class="modal-footer ng-scope">
-        <button class="btn btn-primary" type="button" ng-click="model.update()">OK</button>
+        <button class="btn btn-primary" type="button" ng-click="model.update(updateField)">OK</button>
         <button class="btn btn-warning" type="button" ng-click="model.cancel()">Cancel</button>
     </div>
 </div>

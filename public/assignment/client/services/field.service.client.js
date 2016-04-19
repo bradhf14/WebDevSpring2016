@@ -21,15 +21,10 @@
 
 
         function createFieldForForm(formId, field){
-
-            console.log("creating field and being passed to server service with the following form ID and field");
-            console.log(formId);
-            console.log(field);
             return $http.post ("/api/assignment/form/" + formId + "/field", field);
         }
 
         function getFieldsForForm(formId){
-            console.log("we call get fields for form");
             return $http.get ("/api/assignment/form/" + formId + "/field");
         }
 

@@ -40,14 +40,12 @@ module.exports = function() {
 
     function findUserByCredentials(credentials) {
 
-        console.log("we call finduserbycredentials in model");
         for(var u in users) {
             if( users[u].username == credentials.username &&
                 users[u].password == credentials.password) {
                 return users[u];
             }
         }
-        console.log("we return null");
 
         return null;
     }
@@ -72,9 +70,7 @@ module.exports = function() {
     //takes id and object instance as arguments, finds the object with id
     //update the found instance, return found instance, otherwise null?
     function updateUser(userId, updatedUser) {
-        console.log("we are in the model");
-        console.log(userId);
-        console.log(updatedUser);
+
         for(var u in users) {
 
             if( users[u]._id == userId) {

@@ -16,7 +16,6 @@
             createUser: createUser,
             deleteUserById: deleteUserById,
             updateUser: updateUser
-
         };
 
         //Eliminate all callback in refactoring process
@@ -31,13 +30,10 @@
         }
 
         function findAllUsers(){
-            console.log("find all users in client services");
             return $http.get ("/api/assignment/user");
         }
 
         function createUser(user){
-            console.log("we are about to leave client passing it this user");
-            console.log(user);
             return $http.post("/api/assignment/user", user);
         }
 
@@ -46,9 +42,6 @@
         }
 
         function updateUser (userId, user) {
-            console.log("you are movoing on with the following user id and user value to the id lookup thing")
-            console.log(userId);
-            console.log(user);
             return $http.put ("/api/assignment/user/" + userId, user);
         }
     }

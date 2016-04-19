@@ -10,52 +10,34 @@
 
         fc.formId = $rootScope.formId;
         fc.userId = $routeParams.userId;
-
+        //TODO figure out how to use $routeParams correctly
 
         //implement these below
         fc.removeField = removeField;
         fc.addField = addField;
         fc.showModal = showModal;
 
+        //This updates the listing on the page
          FieldService
-             .getFieldsForForm(fc.formId)
-             .then(function(response){
+            .getFieldsForForm(fc.formId)
+            .then(function(response){
 
-                 $scope.forms = response.data
-             })
-
-        //get the fields for the form
-        //if (fc.formId){
-          //  FieldService
-            //    .getFieldsForForm(fc.formId)
-              //  .then(fieldsCallback);
-        //}
-
-        function fieldsCallback(response){
-            if (response.data){
-                fc.fields = response.data;
-            }
-        }
+                $scope.forms = response.data
+            });
 
         function removeField(field){
             var fieldId = field._id;
             FieldService
                 .deleteFieldFromForm(fc.formId, fieldId)
                 .then(function(response){
-                    console.log(response);
                 });
         }
 
         function addField(newFieldType) {
 
-            console.log("addField is called");
-
             FieldService
                 .createFieldForForm(fc.formId, {'type': newFieldType})
                 .then(function(response) {
-
-                    console.log("this is what is returned");
-                    console.log(response);
 
                     FieldService
                         .getFieldsForForm(fc.formId)
@@ -70,7 +52,6 @@
 
         function showModal(field) {
 
-
             var modalInstance = $uibModal.open({
                 animation: true,
                 templateUrl: 'views/forms/modal.view.html',
@@ -83,19 +64,24 @@
                 }
             });
             modalInstance.result
-                .then(function (field) {
+                .then(function (fieldUpdated) {
                     //once we edit using the modal, use the Field Service to update the field
+                    fieldUpdated._id = field._id;
                     FieldService
-                        .updateField(fc.formId, field._id, field)
-                        .then(function() {
-                            //not sure what goes here
+                        .updateField(fc.formId, field._id, fieldUpdated)
+                        .then(function(response) {
+
+                            FieldService
+                                .getFieldsForForm(fc.formId)
+                                .then(function(response){
+
+                                    $scope.forms = response.data
+                                })
                         });
                 });
         };
 
     }
-
-
 
     angular
         .module('FormBuilderApp')
@@ -132,16 +118,11 @@
 
         function update(f) {
 
-            console.log("these are the updated options");
-            console.log(f);
-            console.log(f.text);
             var options = [];
-            var placeholder = "";
 
             if(f.text) {
                 angular.forEach(f.text, function (f) {
                     var tokens = f.trim().split(':');
-                    console.log("tokens");
                     if (tokens.length == 2) {
                         options.push({'label': tokens[0], 'value': tokens[1]});
                     }
@@ -152,10 +133,10 @@
 
             if(f.placeholder)
             {
-                vm.fieldToEdit.placeholder = placeholder;
+                vm.fieldToEdit.placeholder = f.placeholder;
             };
 
-            console.log(vm.fieldToEdit);
+            vm.fieldToEdit.label = f.label;
             $uibModalInstance.close(vm.fieldToEdit);
         };
 
@@ -164,8 +145,5 @@
 
         };
     }
-
-
-
 
 })();

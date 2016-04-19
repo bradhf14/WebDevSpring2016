@@ -14,11 +14,6 @@
 
         function register(user)
         {
-
-            console.log("function register");
-            console.log(user);
-            console.log(!user.username)
-
             if( user == null || !user.username || !user.password || !user.password2 || !user.email )
             {
                 $rootScope.danger = "User left a field blank";
@@ -29,14 +24,11 @@
                 return;
             } else {
 
-                console.log("this is the register");
                 UserService
                     .createUser(user)
                     .then(function(response){
                         if(response.data != null)
                         {
-                            console.log("we did register successfully");
-                            console.log(response.data);
                             //store the new user object in the rootScope
                             $rootScope.currentUser = response.data;
                             $location.url("/profile");
@@ -46,11 +38,10 @@
                         }
                         else
                         {
-                            console.log("No register, but no second function");
                             $rootScope.danger = "Unable to register";
                         }
                     }, function(response){
-                        console.log("no register, but YAS second function");
+
                         $rootScope.danger = "Unable to register";
                     });
             }

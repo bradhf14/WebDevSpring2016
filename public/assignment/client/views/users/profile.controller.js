@@ -8,12 +8,10 @@
 
         this.update = function(user){
 
-            console.log("you are updating this user");
-            console.log(user);
             UserService
                 .updateUser($rootScope.currentUser._id,user)
                 .then(function(response){
-                    $rootscope.currentUser = response.data;
+                    $rootScope.currentUser = response.data;
             });
         }
     }

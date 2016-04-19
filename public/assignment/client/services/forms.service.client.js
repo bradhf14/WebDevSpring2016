@@ -22,15 +22,12 @@
         //Remove all callbacks made by user
 
         function createFormForUser(userId,form){
-            console.log(userId);
-            console.log(form);
             return $http.post ("/api/assignment/user/" + userId + "/form", form);
         }
 
         function findAllFormsForUser(userId){
             return $http.get ("/api/assignment/user/" + userId + "/form");
         }
-
 
         function deleteFormById(formId){
             return $http.delete ("/api/assignment/form/" + formId);

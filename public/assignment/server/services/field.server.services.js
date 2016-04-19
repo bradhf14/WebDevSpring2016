@@ -16,7 +16,6 @@ module.exports = function(app, formModel){
     function findAllFieldsByFormId(req, res){
         var formId = req.params.formId;
         var form = formModel.findFieldsByFormId(formId);
-        console.log(form);
         res.json(form);          //TODO Check if this logically works
     }
 
@@ -39,12 +38,9 @@ module.exports = function(app, formModel){
 
     // creates new field, in form with formid, returns new field object
     function createField(req, res){
-        console.log("createField called");
         var newField = req.body;
         var formId = req.params.formId;
         var fields = formModel.createField(formId, newField);
-        console.log("fields object being returned");
-        console.log(fields);
         res.json(fields);
     }
 

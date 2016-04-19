@@ -13,7 +13,7 @@ module.exports = function() {
         createField: createField,                   //C
         findAllForms: findAllForms,                 //R
         findFormById: findFormById,                 //R
-        findFieldsByFormId: findFieldsByFormId,      //R
+        findFieldsByFormId: findFieldsByFormId,     //R
         findFormByTitle: findFormByTitle,           //R
         findAllFormsByUserId: FindAllFormsByUserId, //R
         findFieldInFormById: findFieldInFormById,   //R
@@ -38,8 +38,7 @@ module.exports = function() {
     function createField(formId, passedInField){
         var newField = {};
         var passedField = passedInField.type;
-        console.log("this is the passed field");
-        console.log(passedField)
+
         for(var f in forms) {
             if( forms[f]._id == formId) {
                 newField._id = uuid.v1();
@@ -81,6 +80,7 @@ module.exports = function() {
                         {"label": "Option Z", "value": "OPTION_Z"}
                     ]
                 }
+
                 forms[f].fields.push(newField);
                 return forms[f].fields;
             }
@@ -114,8 +114,6 @@ module.exports = function() {
                     fields.push(forms[f].fields[fi]);
             }
         }
-        console.log("this is the fields object");
-        console.log(fields);
         return fields;
     }
 

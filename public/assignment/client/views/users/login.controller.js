@@ -8,11 +8,8 @@
 
         this.login = login
 
-        console.log("login controller")
         function login(user)
         {
-            console.log("login controller login function called")
-
             if(user != null) {
                 UserService
                     .findUserByCredentials(user.Username, user.Password)
@@ -23,8 +20,7 @@
                             //Store the user in the $rootScope
                             $rootScope.currentUser = response.data;
                             $rootScope.danger = null;
-                            console.log("end current user");
-                            console.log(response.data);
+
                             //Use the $location service to navigate to profile view
                             $location.url("/profile");
                             //$location.url("/profile/" + response.data._id);

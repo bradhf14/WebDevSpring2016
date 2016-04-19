@@ -6,9 +6,10 @@
         .module("FormBuilderApp")
         .controller("FormController", FormController);
 
-    function FormController(FormService, $rootScope, $scope) {
+    function FormController(FormService, $rootScope, $scope, FieldService) {
 
         this.form ={};
+        $scope.formUpdate = {};
 
         //TODO can't figure out how to update this.forms inside of callback function
         //Maybe try with scope angular
@@ -17,16 +18,14 @@
             .findAllFormsForUser($rootScope.currentUser._id)
             .then(function(usersForms){
                 $scope.forms = usersForms.data;
+                console.log($scope.forms);
 
         });
 
         this.addForm = function(form){
-
-            console.log("creating form, this is the form");
             FormService
                 .createFormForUser($rootScope.currentUser._id,form)
                 .then(function(form){
-                    console.log(form);
                     FormService
                         .findAllFormsForUser($rootScope.currentUser._id)
                         .then(function(usersForms){
@@ -38,26 +37,36 @@
 
         };
 
+        //TODO this is messy, clean this up, some work arounds because
+        //I'm having issue keeping the fields values when it's updated
         this.updateForm = function(form){
 
+            var fields = [];
             form.userId = $rootScope.currentUser._id;
-            FormService
-                .updateFormById(this.form._id,form)
-                .then(function(forms){
-                    FormService
-                        .findAllFormsForUser($rootScope.currentUser._id)
-                        .then(function(usersForms){
-                            $scope.forms = usersForms.data;
+            $scope.formUpdate = this.form;
 
+            FieldService
+                .getFieldsForForm(this.form._id)
+                .then(function(response){
+                    fields = (response.data);
+                    form.fields = fields;
+
+                    FormService
+                        .updateFormById($scope.formUpdate._id,form)
+                        .then(function(forms){
+                            FormService
+                                .findAllFormsForUser($rootScope.currentUser._id)
+                                .then(function(usersForms){
+                                    $scope.forms = usersForms.data;
+
+                                });
                         });
+
                 });
 
         };
 
         this.deleteForm = function(form){
-
-            console.log("delete is called");
-            console.log(form);
             FormService
                 .deleteFormById(form._id)
                 .then(function(forms){
@@ -77,8 +86,9 @@
             this.form = {
                 _id: $scope.forms[index]._id,
                 title: $scope.forms[index].title,
-                userId: $scope.forms[index].userId
+                userId: $scope.forms[index].userId,
             };
+
             $rootScope.formId = $scope.forms[index]._id;
 
         };

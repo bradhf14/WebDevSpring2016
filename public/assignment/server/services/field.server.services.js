@@ -5,7 +5,7 @@
 module.exports = function(app, formModel){
 
     // form field service endpoints
-    app.get("/api/assignment/form/:formId/field", findAllFieldsbyFormId);
+    app.get("/api/assignment/form/:formId/field", findAllFieldsByFormId);
     app.get("/api/assignment/form/:formId/field/:fieldId", findFieldAndFormById);
     app.delete("/api/assignment/form/:formId/field/:fieldId", deleteField);
     app.post("/api/assignment/form/:formId/field", createField); //
@@ -13,10 +13,11 @@ module.exports = function(app, formModel){
 
 
     // returns array of fields belong to a form whose id is equal to path param
-    function findFieldByFormId(req, res){
+    function findAllFieldsByFormId(req, res){
         var formId = req.params.formId;
-        var form = formModel.findFormById(formId);
-        res.json(form.fields);          //TODO Check if this logically works
+        var form = formModel.findFieldsByFormId(formId);
+        console.log(form);
+        res.json(form);          //TODO Check if this logically works
     }
 
     // returns a field object whose id is equal to field id path param
@@ -38,9 +39,12 @@ module.exports = function(app, formModel){
 
     // creates new field, in form with formid, returns new field object
     function createField(req, res){
+        console.log("createField called");
         var newField = req.body;
         var formId = req.params.formId;
         var fields = formModel.createField(formId, newField);
+        console.log("fields object being returned");
+        console.log(fields);
         res.json(fields);
     }
 

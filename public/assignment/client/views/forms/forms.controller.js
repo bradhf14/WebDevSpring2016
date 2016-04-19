@@ -12,49 +12,75 @@
 
         //TODO can't figure out how to update this.forms inside of callback function
         //Maybe try with scope angular
-        this.forms = FormService.findAllFormsForUser($rootScope.currentUser._id, function(usersForms){
+
+        FormService
+            .findAllFormsForUser($rootScope.currentUser._id)
+            .then(function(usersForms){
+                $scope.forms = usersForms.data;
+
         });
 
         this.addForm = function(form){
 
-            FormService.CreateFormForUser($rootScope.currentUser._id,form.title, function(form){
+            console.log("creating form, this is the form");
+            FormService
+                .createFormForUser($rootScope.currentUser._id,form)
+                .then(function(form){
+                    console.log(form);
+                    FormService
+                        .findAllFormsForUser($rootScope.currentUser._id)
+                        .then(function(usersForms){
+                            $scope.forms = usersForms.data;
+
+                        });
 
             });
-            this.forms = FormService.findAllFormsForUser($rootScope.currentUser._id, function(usersForms){
 
-            });
         };
 
         this.updateForm = function(form){
 
-            FormService.updateFormById(this.form._id,form.title, function(form){
+            form.userId = $rootScope.currentUser._id;
+            FormService
+                .updateFormById(this.form._id,form)
+                .then(function(forms){
+                    FormService
+                        .findAllFormsForUser($rootScope.currentUser._id)
+                        .then(function(usersForms){
+                            $scope.forms = usersForms.data;
 
-            });
-            this.forms = FormService.findAllFormsForUser($rootScope.currentUser._id, function(usersForms){
+                        });
+                });
 
-            });
         };
 
         this.deleteForm = function(form){
-            FormService.deleteFormById(form._id, function(form){
+
+            console.log("delete is called");
+            console.log(form);
+            FormService
+                .deleteFormById(form._id)
+                .then(function(forms){
+                    FormService
+                        .findAllFormsForUser($rootScope.currentUser._id)
+                        .then(function(usersForms){
+                            $scope.forms = usersForms.data;
+
+                        });
 
             });
-            this.forms = FormService.findAllFormsForUser($rootScope.currentUser._id, function(usersForms){
 
-            });
         };
 
         this.selectForm = function(index){
 
             this.form = {
-                _id: this.forms[index]._id,
-                title: this.forms[index].title,
-                userId: this.forms[index].userId
+                _id: $scope.forms[index]._id,
+                title: $scope.forms[index].title,
+                userId: $scope.forms[index].userId
             };
+            $rootScope.formId = $scope.forms[index]._id;
 
-            this.forms = FormService.findAllFormsForUser($rootScope.currentUser._id, function(usersForms){
-
-            });
         };
     }
 })();

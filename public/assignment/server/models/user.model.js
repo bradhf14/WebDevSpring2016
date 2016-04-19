@@ -4,10 +4,9 @@
 var users = require("./user.mock.json");
 
 //javascript node.js module for User
-module.exports = function(app, db) {
+module.exports = function() {
 
     var api = {
-
         createUser: createUser,                         //C
         findUserByUsername: findUserByUsername,         //R
         findUserByCredentials: findUserByCredentials,   //R
@@ -25,13 +24,13 @@ module.exports = function(app, db) {
     function createUser(user) {
         user._id = (new Date()).getTime();
         users.push(user);
-        return users;
+        return user;
     }
 
     function findUserByUsername(username) {
 
         for(var u in users) {
-            if( users[u].username === username) {
+            if( users[u].username == username) {
                 return users[u];
             }
         }
@@ -41,12 +40,15 @@ module.exports = function(app, db) {
 
     function findUserByCredentials(credentials) {
 
+        console.log("we call finduserbycredentials in model");
         for(var u in users) {
-            if( users[u].username === credentials.username &&
-                users[u].password === credentials.password) {
+            if( users[u].username == credentials.username &&
+                users[u].password == credentials.password) {
                 return users[u];
             }
         }
+        console.log("we return null");
+
         return null;
     }
 
@@ -54,7 +56,7 @@ module.exports = function(app, db) {
     function findUserByID(id) {
 
         for(var u in users) {
-            if( users[u]._id === id) {
+            if( users[u]._id == id) {
                 return users[u];
             }
         }
@@ -70,8 +72,14 @@ module.exports = function(app, db) {
     //takes id and object instance as arguments, finds the object with id
     //update the found instance, return found instance, otherwise null?
     function updateUser(userId, updatedUser) {
+        console.log("we are in the model");
+        console.log(userId);
+        console.log(updatedUser);
         for(var u in users) {
-            if( users[u]._id === userId) {
+
+            if( users[u]._id == userId) {
+
+
                 users[u].firstName = updatedUser.firstName;
                 users[u].lastName = updatedUser.lastName;
                 users[u].username = updatedUser.username;
@@ -87,7 +95,7 @@ module.exports = function(app, db) {
     //return updated list?
     function deleteUser(userId){
         for (var u in users){
-            if (users[u]._id === userId){
+            if (users[u]._id == userId){
                 users.splice(u, 1);
             }
         }

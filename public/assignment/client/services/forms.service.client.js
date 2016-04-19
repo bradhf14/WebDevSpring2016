@@ -13,7 +13,7 @@
 
             createFormForUser: createFormForUser,
             findAllFormsForUser: findAllFormsForUser,
-            deleteFormById: deleteFormbById,
+            deleteFormById: deleteFormById,
             updateFormById: updateFormById
         };
 
@@ -22,6 +22,8 @@
         //Remove all callbacks made by user
 
         function createFormForUser(userId,form){
+            console.log(userId);
+            console.log(form);
             return $http.post ("/api/assignment/user/" + userId + "/form", form);
         }
 
@@ -29,8 +31,8 @@
             return $http.get ("/api/assignment/user/" + userId + "/form");
         }
 
-        //TODO see if this works as logically expected
-        function deleteFormbById(formId){
+
+        function deleteFormById(formId){
             return $http.delete ("/api/assignment/form/" + formId);
         }
 

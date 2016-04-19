@@ -4,26 +4,40 @@
         .module("FormBuilderApp")
         .controller("LoginController", LoginController);
 
-    function LoginController(UserService, $rootScope, $location) {
+    function LoginController(UserService, $rootScope, $location, $scope) {
 
-        this.login = function(user)
+        this.login = login
+
+        console.log("login controller")
+        function login(user)
         {
+            console.log("login controller login function called")
 
-            UserService
-                .findUserByUsernameAndPassword(user.Username, user.Password, function(response) {
+            if(user != null) {
+                UserService
+                    .findUserByCredentials(user.Username, user.Password)
+                    .then(function (response) {
+                        //TODO This null might be redundant, look into promises
 
-                    if(response != null){
+                        if (response.data != null) {
+                            //Store the user in the $rootScope
+                            $rootScope.currentUser = response.data;
+                            $rootScope.danger = null;
+                            console.log("end current user");
+                            console.log(response.data);
+                            //Use the $location service to navigate to profile view
+                            $location.url("/profile");
+                            //$location.url("/profile/" + response.data._id);
+                        } else {
+                            $scope.message = "Login failed"
+                        }
 
-                        //Store the user in the $rootScope
-                        $rootScope.currentUser = response;
+                    })
+            }else{
+                $scope.message = "Please enter a username and password"
+            }
 
-                        $rootScope.danger = null;
-                        //Use the $location service to navigate to profile view
-                        $location.url("/profile");
-                        //$location.url("/profile/" + response.data._id);
-                        //
-                    }
-                });
+
         }
     }
 })();

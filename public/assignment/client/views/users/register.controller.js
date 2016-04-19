@@ -8,33 +8,50 @@
         .controller("RegisterController", RegisterController);
 
     //rootScope and location are angular services, UserService is service we created
-    function RegisterController($rootScope, UserService, $location) {
+    function RegisterController($scope, $rootScope, UserService, $location) {
 
-        this.register = function(user)
+        this.register = register;
+
+        function register(user)
         {
-            if(user.password != user.password2 || !user.password || !user.password2)
-            {
-                $rootScope.danger = "Your passwords don't match";
-            }
-            else
-            {
-                UserService
-                    .createUser(user,function(response) {
-                        if(response != null)
-                        {
 
+            console.log("function register");
+            console.log(user);
+            console.log(!user.username)
+
+            if( user == null || !user.username || !user.password || !user.password2 || !user.email )
+            {
+                $rootScope.danger = "User left a field blank";
+                return;
+            } else if (user.password != user.password2){
+
+                $rootScope.danger = "Users passwords don't match";
+                return;
+            } else {
+
+                console.log("this is the register");
+                UserService
+                    .createUser(user)
+                    .then(function(response){
+                        if(response.data != null)
+                        {
+                            console.log("we did register successfully");
+                            console.log(response.data);
                             //store the new user object in the rootScope
-                            $rootScope.currentUser = response;
+                            $rootScope.currentUser = response.data;
                             $location.url("/profile");
                             //Use the $location service to navigate to the profile view
-
                             //may use this new location in the future, not sure yet
                             //$location.url("/profile/" + response._id);
                         }
                         else
                         {
+                            console.log("No register, but no second function");
                             $rootScope.danger = "Unable to register";
                         }
+                    }, function(response){
+                        console.log("no register, but YAS second function");
+                        $rootScope.danger = "Unable to register";
                     });
             }
         }

@@ -20,9 +20,29 @@ module.exports = function(app, userModel) {
     function register(req,res){
 
         var user = req.body;                //TODO check if body is correct
-        user = userModel.createUser(user);  //adds id tag, and stores in mock data
+        user = userModel.createUser(user)
+            .then(function ( doc ) {
+                // login user if promise resolved
+
+                console.log("funciton doc");
+                console.log(doc);
+                    req.session.currentUser = doc;
+                    res.json(user);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    console.log("There is an error");
+                    res.status(400).send(err);
+                }
+            );  //adds id tag, and stores in mock data
+
+
+        res.json(user);
+
+        //console.log("This is from the user.servcer.services.js.  this is the user we pass back to client");
+        //console.log(user);
         //req.session.currentUser = user;     //assign current user of session (part of express.js)
-        res.json(user);                     //return json object user, might need to switch to array of all users
+        //res.json(user);                     //return json object user, might need to switch to array of all users
     }
     function findAllUser(req, res){
         // parse the URL for the username

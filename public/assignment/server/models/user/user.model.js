@@ -2,9 +2,26 @@
  * Created by Bradley on 4/12/16.
  */
 var users = require("./user.mock.json");
+// load q promise library
+// figure out why we do this later
+var q = require("q");
+
 
 //javascript node.js module for User
-module.exports = function() {
+module.exports = function(db, mongoose) {
+
+    //load user schema
+    var UserSchema = require("./user.schema.server.js")(mongoose);
+
+    //create user model from schema
+    var UserModel = mongoose.model('User', UserSchema);
+
+    UserModel.create({username: "bradley"},
+    function(err, results){
+        console.log("we created a user");
+        console.log(err);
+        console.log(results);
+    });
 
     var api = {
         createUser: createUser,                         //C
@@ -22,9 +39,30 @@ module.exports = function() {
 
     //accepts user, adds to users array, and returns array of users
     function createUser(user) {
-        user._id = (new Date()).getTime();
-        users.push(user);
-        return user;
+
+        //use q to defer the response
+        console.log("user that is passed in");
+        console.log(user);
+        var deferred  = q.defer();
+
+        UserModel.create(user, function(err,doc){
+
+            if (err){
+                //reject promise if error
+                deferred.reject(err);
+            } else {
+                //resolve promise
+                deferred.resolve(doc);
+            }
+        });
+
+        return deferred.promise;
+
+        //unedited below
+
+        //user._id = (new Date()).getTime();
+        //users.push(user);
+        //return user;
     }
 
     function findUserByUsername(username) {

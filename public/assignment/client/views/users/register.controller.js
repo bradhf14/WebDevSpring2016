@@ -27,6 +27,9 @@
                 UserService
                     .createUser(user)
                     .then(function(response){
+
+                        console.log("do we ever call back")
+                        console.log(response.data);
                         if(response.data != null)
                         {
                             //store the new user object in the rootScope
@@ -41,7 +44,6 @@
                             $rootScope.danger = "Unable to register";
                         }
                     }, function(response){
-
                         $rootScope.danger = "Unable to register";
                     });
             }

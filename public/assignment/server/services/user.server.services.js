@@ -12,9 +12,7 @@ module.exports = function(app, userModel) {
     app.delete("/api/assignment/user/:id", deleteID);
 
     //any additional mappings you might need
-
-    // request to read all users and respond with all users
-
+    //request to read all users and respond with all users
 
     //creates a new user embedded in the body of the request, and responds with an array of all users
     function register(req,res){
@@ -23,26 +21,16 @@ module.exports = function(app, userModel) {
         user = userModel.createUser(user)
             .then(function ( doc ) {
                 // login user if promise resolved
-
-                console.log("funciton doc");
-                console.log(doc);
-                    req.session.currentUser = doc;
-                    res.json(user);
+                //TODO this req.session.currentuser breaks my code
+                //req.session.currentUser = doc;
+                res.json(doc);
                 },
                 // send error if promise rejected
                 function ( err ) {
-                    console.log("There is an error");
                     res.status(400).send(err);
                 }
-            );  //adds id tag, and stores in mock data
+            ); //adds id tag, and stores in mock data
 
-
-        res.json(user);
-
-        //console.log("This is from the user.servcer.services.js.  this is the user we pass back to client");
-        //console.log(user);
-        //req.session.currentUser = user;     //assign current user of session (part of express.js)
-        //res.json(user);                     //return json object user, might need to switch to array of all users
     }
     function findAllUser(req, res){
         // parse the URL for the username
@@ -57,8 +45,20 @@ module.exports = function(app, userModel) {
                 username: username,
                 password: password
             };
-            var users = userModel.findUserByCredentials(credentials);
-            res.json(users);
+            var users = userModel.findUserByCredentials(credentials)
+                .then(function ( doc ) {
+                        // login user if promise resolved
+                        //TODO this req.session.currentuser breaks my code
+                        //req.session.currentUser = doc;
+                    console.log("this is what is in the user.server.services ");
+                        console.log(doc);
+                        res.json(doc);
+                    },
+                        // send error if promise rejected
+                        function ( err ) {
+                            res.status(400).send(err);
+                        }
+                );
         } else if (password == null){
             if (username){
                 var user = userModel.findUserByUsername(username);
@@ -73,6 +73,8 @@ module.exports = function(app, userModel) {
 
     //responds with a single user whose id property is equal to the id path parameter
     function idUser(req,res){
+
+
 
         var index = req.params.id;
         var user = userModel.findUserById(index);
@@ -108,11 +110,25 @@ module.exports = function(app, userModel) {
     // request. Responds with an array of all users
     function updateID(req,res){
 
+        console.log("updated user is called");
         var updatedUser = req.body;
         var index = req.params.id;
-        var user = userModel.updateUser(index, updatedUser);  //TODO maybe remove return statement from updateUser
+        var user = userModel.updateUser(index, updatedUser)
+            .then(function ( doc ) {
+
+                    console.log("in user service we get back to the updated user, and this is the updated user being returned to the client")
+                    console.log(doc);
+                    res.json(doc);
+
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            ); //adds id tag, and stores in mock data
+
         //var users = userModel.findAllUsers();
-        res.json(user);
+        //res.json(user);
        }
 
     //removes an existing user whose id property is equal to the id path parameter.

@@ -11,7 +11,7 @@
             UserService
                 .updateUser($rootScope.currentUser._id,user)
                 .then(function(response){
-                    $rootScope.currentUser = response.data;
+                    $rootScope.currentUser = response.data[0];
                     $routeParams.userId = $rootScope.currentUser._id;
             });
         }

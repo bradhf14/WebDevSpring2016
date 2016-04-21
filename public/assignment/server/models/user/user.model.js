@@ -6,7 +6,6 @@ var users = require("./user.mock.json");
 // figure out why we do this later
 var q = require("q");
 
-
 //javascript node.js module for User
 module.exports = function(db, mongoose) {
 
@@ -16,12 +15,6 @@ module.exports = function(db, mongoose) {
     //create user model from schema
     var UserModel = mongoose.model('User', UserSchema);
 
-    UserModel.create({username: "bradley"},
-    function(err, results){
-        console.log("we created a user");
-        console.log(err);
-        console.log(results);
-    });
 
     var api = {
         createUser: createUser,                         //C
@@ -41,8 +34,6 @@ module.exports = function(db, mongoose) {
     function createUser(user) {
 
         //use q to defer the response
-        console.log("user that is passed in");
-        console.log(user);
         var deferred  = q.defer();
 
         UserModel.create(user, function(err,doc){
@@ -57,82 +48,131 @@ module.exports = function(db, mongoose) {
         });
 
         return deferred.promise;
-
-        //unedited below
-
-        //user._id = (new Date()).getTime();
-        //users.push(user);
-        //return user;
     }
 
     function findUserByUsername(username) {
 
-        for(var u in users) {
-            if( users[u].username == username) {
-                return users[u];
+        var deferred = q.defer();
+
+        //find user by username
+
+        UserModel.find({
+            username: {$in: username}
+        }, function (err, users) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(users);
             }
-        }
-        return null;
+        });
+
+        return deferred.promise;
 
     }
 
     function findUserByCredentials(credentials) {
 
-        for(var u in users) {
-            if( users[u].username == credentials.username &&
-                users[u].password == credentials.password) {
-                return users[u];
-            }
-        }
+        var deferred = q.defer();
 
-        return null;
+        //find user by username and password
+        UserModel.find
+        ({$and: [{username: credentials.username},{password:credentials.password}]
+        }, function (err, user) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(user);
+            }
+        });
+
+        return deferred.promise;
     }
 
     //takes in ID, finds instance, return the instance found, or null otherwise
     function findUserByID(id) {
 
-        for(var u in users) {
-            if( users[u]._id == id) {
-                return users[u];
+        var deferred = q.defer();
+
+        //find user by ID
+
+        UserModel.find({
+            _id: {$in: id}
+        }, function (err, users) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(users);
             }
-        }
-        return null;
+        });
+
+        return deferred.promise;
     }
 
     //takes in no argument, and returns the collection
     function findAllUsers() {
 
-        return users;
+        var deferred = q.defer();
+
+        UserModel.find(
+            function (err, users) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(users);
+            }
+        });
+
+        return deferred.promise;
+
     }
 
     //takes id and object instance as arguments, finds the object with id
     //update the found instance, return found instance, otherwise null?
     function updateUser(userId, updatedUser) {
 
-        for(var u in users) {
+        var deferred = q.defer();
 
-            if( users[u]._id == userId) {
-
-                users[u].firstName = updatedUser.firstName;
-                users[u].lastName = updatedUser.lastName;
-                users[u].username = updatedUser.username;
-                users[u].password = updatedUser.password;
-                users[u].email = updatedUser.email;
-                return users[u];
+        UserModel.update({_id: userId},{$set:{
+            firstName: updatedUser.firstName,
+            lastName: updatedUser.lastName,
+            username: updatedUser.username,
+            password: updatedUser.password,
+            emails: updatedUser.email
             }
-        }
-        return null;
+        },
+            function (err, user) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(findUserByID(userId));
+                }
+            });
+
+
+
+        return deferred.promise;
+
     }
 
     //should accept an ID as an argument, remove instance of object with that ID,
     //return updated list?
     //need to check that this works (once we work with admin page)
     function deleteUser(userId){
-        for (var u in users){
-            if (users[u]._id == userId){
-                users.splice(u, 1);
-            }
-        }
-        return users;
+
+        //TODO how to handle promise with this one?
+
+        var deferred = q.defer();
+
+        UserModel.remove({_id: userId},
+            function (err, user) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(user);
+                }
+            });
+
+        return deferred.promise;
+
     }
 }

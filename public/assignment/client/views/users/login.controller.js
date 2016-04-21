@@ -16,9 +16,9 @@
                     .then(function (response) {
                         //TODO This null might be redundant, look into promises
 
-                        if (response.data != null) {
+                        if (response.data[0] != null) {
                             //Store the user in the $rootScope
-                            $rootScope.currentUser = response.data;
+                            $rootScope.currentUser = response.data[0];
                             $rootScope.danger = null;
 
                             //Use the $location service to navigate to profile view
@@ -32,8 +32,6 @@
             }else{
                 $scope.message = "Please enter a username and password"
             }
-
-
         }
     }
 })();

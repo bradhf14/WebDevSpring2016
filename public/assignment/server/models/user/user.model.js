@@ -15,15 +15,14 @@ module.exports = function(db, mongoose) {
     //create user model from schema
     var UserModel = mongoose.model('User', UserSchema);
 
-
     var api = {
         createUser: createUser,                         //C
-        findUserByUsername: findUserByUsername,         //R
+        findUserByUsername: findUserByUsername,         //R Test
         findUserByCredentials: findUserByCredentials,   //R
-        findUserById: findUserByID,                     //R
-        findAllUsers: findAllUsers,                     //R
+        findUserById: findUserByID,                     //R Test
+        findAllUsers: findAllUsers,                     //R Test
         updateUser: updateUser,                         //U
-        deleteUser: deleteUser                          //D
+        deleteUser: deleteUser                          //D Test
         //any other necessary ones to implement here, look at CRUD requirements (believe all are included)
     };
 
@@ -137,7 +136,7 @@ module.exports = function(db, mongoose) {
             lastName: updatedUser.lastName,
             username: updatedUser.username,
             password: updatedUser.password,
-            emails: updatedUser.email
+            emails: [updatedUser.emails[0]]
             }
         },
             function (err, user) {

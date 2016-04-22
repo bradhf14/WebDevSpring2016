@@ -47,11 +47,8 @@ module.exports = function(app, userModel) {
             };
             var users = userModel.findUserByCredentials(credentials)
                 .then(function ( doc ) {
-                        // login user if promise resolved
                         //TODO this req.session.currentuser breaks my code
                         //req.session.currentUser = doc;
-                    console.log("this is what is in the user.server.services ");
-                        console.log(doc);
                         res.json(doc);
                     },
                         // send error if promise rejected
@@ -61,11 +58,26 @@ module.exports = function(app, userModel) {
                 );
         } else if (password == null){
             if (username){
-                var user = userModel.findUserByUsername(username);
-                res.json(user);
+                var user = userModel.findUserByUsername(username)
+                    .then(function ( doc ) {
+                            //TODO this req.session.currentuser breaks my code
+                            //req.session.currentUser = doc;
+                            res.json(doc);
+                        },
+                        // send error if promise rejected
+                        function ( err ) {
+                            res.status(400).send(err);
+                        }
+                    );
             } else {
-                var users = userModel.findAllUsers();
-                res.json(users);
+                var users = userModel.findAllUsers()
+                    .then(function(doc){
+                        res.json(doc);
+                    },
+                    function (err){
+                        res.status(400).send(err);
+                    });
+
             }
         }
     }

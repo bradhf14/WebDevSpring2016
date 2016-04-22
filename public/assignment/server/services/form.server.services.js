@@ -18,8 +18,20 @@ module.exports = function(app, formModel) {
         var newForm = req.body;         //and the req.body is the form, if we want to parse need body parser library
         newForm.userId = userID;                                //So we need to put userId into body before we create new form, thus
                                         // we will need body parser library???
-        var forms = formModel.createForm(newForm);
-        res.json(forms);
+        var forms = formModel.createForm(newForm)
+            .then(function ( doc ) {
+                    // login user if promise resolved
+                    //TODO this req.session.currentuser breaks my code
+                    //req.session.currentUser = doc;
+                    res.json(doc);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
+
+        //res.json(forms);
     }
 
     // requests id to find a form given an respond with the form
@@ -32,8 +44,18 @@ module.exports = function(app, formModel) {
     // requests the userId and responds with the forms for that user
     function findAllFormsByUserId(req, res) {
         var userId = req.params.userId;                     //gets the user id
-        var forms = formModel.findAllFormsByUserId(userId);  //
-        res.json(forms);
+        var forms = formModel.findAllFormsByUserId(userId)
+            .then(function ( forms ) {
+                    //TODO this req.session.currentuser breaks my code
+                    //req.session.currentUser = doc;
+                    res.json(forms);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );  //
+
     }
 
     // request to update a form with body
@@ -43,8 +65,18 @@ module.exports = function(app, formModel) {
     function updateForm(req, res) {
         var updatedForm = req.body;
         var id = req.params.userId;
-        var forms = formModel.updateForm(id, updatedForm);
-        res.json(forms);
+        var forms = formModel.updateForm(id, updatedForm)
+            .then(function ( form ) {
+                    //TODO this req.session.currentuser breaks my code
+                    //req.session.currentUser = doc;
+                    res.json(form);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
+
     }
 
     //request to read to delete particular form (check id)

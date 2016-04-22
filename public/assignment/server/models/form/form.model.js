@@ -5,17 +5,24 @@
 //data for now stored as mock data
 var forms = require("./form.mock.json");
 var uuid = require('node-uuid');
+var q = require("q");
 
-module.exports = function() {
+module.exports = function(db, mongoose) {
+
+    //load user schema
+    var FormSchema = require("./form.schema.server.js")(mongoose);
+
+    //create user model from schema
+    var FormModel = mongoose.model('Form', FormSchema);
 
     var api = {
-        createForm: createForm,                     //C
+        createForm: createForm,                     //C  TESTED
         createField: createField,                   //C
         findAllForms: findAllForms,                 //R
         findFormById: findFormById,                 //R
         findFieldsByFormId: findFieldsByFormId,     //R
         findFormByTitle: findFormByTitle,           //R
-        findAllFormsByUserId: FindAllFormsByUserId, //R
+        findAllFormsByUserId: FindAllFormsByUserId, //R  TESTED
         findFieldInFormById: findFieldInFormById,   //R
         updateForm: updateForm,                     //U
         updateField: updateField,                   //U
@@ -26,12 +33,24 @@ module.exports = function() {
 
     return api;
 
+    //Testing form database
+
+
     //accept instance, add it to corresponding collection, and return the collection
     function createForm(newForm){
-        newForm._id = (new Date()).getTime();
-        newForm.fields = [];
-        forms.push(newForm);
-        return forms;
+
+        var deferred  = q.defer();
+
+        FormModel.create(newForm, function(err,doc){
+
+            if (err){
+                deferred.reject(err);
+            } else {
+                deferred.resolve(doc);
+            }
+        });
+
+        return deferred.promise;
     }
 
     //accept formId and new field object, creates a field in that form object if form object exists, returns fields or null
@@ -92,17 +111,39 @@ module.exports = function() {
     //takes in no argument, and returns the collection
     function findAllForms() {
 
-        return forms;
+        var deferred = q.defer();
+
+        FormModel.find(
+            function (err, forms) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(forms);
+                }
+            });
+
+        return deferred.promise;
+
     }
 
     //takes in ID, finds instance, return the instance found, or null otherwise
     function findFormById(id){
-        for(var f in forms) {
-            if( forms[f]._id == id) {
-                return forms[f];
+
+        var deferred = q.defer();
+
+        //find user by ID
+
+        FormModel.find({
+            _id: {$in: id}
+        }, function (err, form) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(form);
             }
-        }
-        return null;
+        });
+
+        return deferred.promise;
     }
 
     function findFieldsByFormId(id){
@@ -119,40 +160,63 @@ module.exports = function() {
 
     function findFormByTitle(title) {
 
-        for(var f in forms) {
-            if( forms[f].title == title) {
-                return forms[f];
+        var deferred = q.defer();
+
+        //find user by ID
+
+        FormModel.find({
+            title: {$in: title}
+        }, function (err, form) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+                deferred.resolve(form);
             }
-        }
-        return null;
+        });
+
+        return deferred.promise;
 
     }
 
 
-    //TODO build out this function
     function FindAllFormsByUserId(userId){
 
-        var formsUser = [];
-        for(var f in forms) {
-            if (forms[f].userId == userId) {
-                formsUser.push(forms[f]);
-            }
-        }
+        var deferred = q.defer();
 
-        return formsUser;
+        FormModel.find({
+            userId: {$in: userId}
+        }, function (err, forms) {
+            if (err) {
+                deferred.reject(err);
+            } else {;
+                deferred.resolve(forms);
+            }
+        });
+
+        return deferred.promise;
+
     }
 
     //finds the object with id, updates the found instance, return all forms
     function updateForm(formId, updatedForm) {
-        for(var f in forms) {
-            if( forms[f]._id == formId) {
-                forms[f].title = updatedForm.title;
-                forms[f].userId = updatedForm.userId;
-                forms[f].fields = updatedForm.fields;
-                return forms;
+
+        var deferred = q.defer();
+
+        FormModel.update({_id: formId},{$set:{
+                title: updatedForm.title,
+                userId: updatedForm.userId,
+                fields: updatedForm.fields
             }
-        }
-        return null;
+            },
+            function (err, form) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(findFormById(formId));
+                }
+            });
+
+        return deferred.promise;
     }
 
     //finds the object with id, updates the found instance, return the instance, otherwise null?
@@ -195,13 +259,19 @@ module.exports = function() {
 
     //should accept an ID as an argument, remove instance of object with that ID,
     //return updated list?
+    //TODO figure out if this return is meh
     function deleteForm(formId){
-        for (var f in forms){
-            if (forms[f]._id == formId){
-                forms.splice(f, 1);
-            }
-        }
-        return forms;
+        var deferred = q.defer();
+
+        FormModel.remove({_id: formId},
+            function (err, form) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(form);
+                }
+            });
+        return deferred.promise;
     }
 
     function deleteField(formId, fieldId){

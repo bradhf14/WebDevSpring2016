@@ -2,7 +2,7 @@
 // create a mongoose variable so we can create a FormSchema
 // figure out if we can call in mongoose
 
-module.exports = function (mongoose) {
+module.exports = function (mongoose, FieldSchema) {
 
     //we need the field scheme to create the form schema since it
     //stored the embedded instances of fields
@@ -13,7 +13,7 @@ module.exports = function (mongoose) {
         userId:{type: String},
         title: {type: String, default: "New Form"},
         //TODO figure out how to pass in field schema
-        fields: [FieldSchema],
+        fields: {type: Date, default: Date.now},    //CHANGE THIS
         created: {type: Date, default: Date.now},
         update:  {type: Date, default: Date.now}
     }, {collection: "form"});

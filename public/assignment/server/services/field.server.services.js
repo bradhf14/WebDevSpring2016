@@ -31,8 +31,16 @@ module.exports = function(app, formModel){
     function findFieldAndFormById(req, res){
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
-        var field = formModel.findFieldInFormById(formId, fieldId);
-        res.json(field);
+        var field = formModel.findFieldInFormById(formId, fieldId)
+            .then(function ( field ) {
+                    res.json(field);
+                },
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
+
+
     }
 
     // removes a field object with fieldId, and belong to formField parameter, returns array of fields

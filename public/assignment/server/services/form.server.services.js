@@ -37,8 +37,14 @@ module.exports = function(app, formModel) {
     // requests id to find a form given an respond with the form
     function findByIdForm(req, res) {
         var id = req.params.formId;
-        var form = formModel.findFormById(id);
-        res.json(form);
+        var form = formModel.findFormById(id)
+            .then(function(form){
+                res.json(form);
+            },
+            function(err){
+                res.status(400).send(err);
+            });
+
     }
 
     // requests the userId and responds with the forms for that user

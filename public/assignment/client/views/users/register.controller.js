@@ -28,8 +28,7 @@
                     .createUser(user)
                     .then(function(response){
 
-                        console.log("do we ever call back")
-                        console.log(response.data);
+
                         if(response.data != null)
                         {
                             //store the new user object in the rootScope

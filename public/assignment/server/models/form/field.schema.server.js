@@ -5,8 +5,12 @@ module.exports = function () {
 
     var FieldSchema = mongoose.Schema({
         label: {type: String, default: "First Name"},
+        //TODO error if i don't create _id paramter here, not sure if it should be needed, not needed for other schemas
+        _id: {type: String},
+        formId: {type: String},
         type: {type: String,
             enum: ["TEXT",
+                "TEXTAREA",
                 "EMAIL",
                 "PASSWORD",
                 "OPTIONS",

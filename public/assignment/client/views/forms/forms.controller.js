@@ -17,21 +17,19 @@
         FormService
             .findAllFormsForUser($rootScope.currentUser._id)
             .then(function(usersForms){
-                console.log("do we ever gete here");
-                console.log(usersForms);
+
                 $scope.forms = usersForms.data;
-                console.log($scope.forms);
+
 
         });
 
         this.addForm = function(form){
 
-            console.log("add form is called");
+
             FormService
                 .createFormForUser($rootScope.currentUser._id,form)
                 .then(function(form){
-                    console.log("create form for user is completed");
-                    console.log(form.data);
+
                     FormService
                         .findAllFormsForUser($rootScope.currentUser._id)
                         .then(function(usersForms){

@@ -30,6 +30,12 @@
             FieldService
                 .deleteFieldFromForm(fc.formId, fieldId)
                 .then(function(response){
+                    FieldService
+                        .getFieldsForForm(fc.formId)
+                        .then(function(response){
+
+                            $scope.forms = response.data
+                        });
                 });
         }
 

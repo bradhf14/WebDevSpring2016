@@ -15,8 +15,15 @@ module.exports = function(app, formModel){
     // returns array of fields belong to a form whose id is equal to path param
     function findAllFieldsByFormId(req, res){
         var formId = req.params.formId;
-        var form = formModel.findFieldsByFormId(formId);
-        res.json(form);          //TODO Check if this logically works
+        var form = formModel.findFieldsByFormId(formId)
+            .then(function ( field ) {
+                    res.json(field);
+                },
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
+
     }
 
     // returns a field object whose id is equal to field id path param
@@ -28,20 +35,35 @@ module.exports = function(app, formModel){
         res.json(field);
     }
 
-    // removes a field object with fieldId, and belong to formField parameter, returns array of forms
+    // removes a field object with fieldId, and belong to formField parameter, returns array of fields
     function deleteField(req, res){
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
-        var forms = formModel.deleteField(formId, fieldId);
-        res.json(forms);
+        var forms = formModel.deleteField(formId, fieldId)
+            .then(function ( fields ) {
+                    res.json(fields);
+                },
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
+
     }
 
     // creates new field, in form with formid, returns new field object
     function createField(req, res){
         var newField = req.body;
         var formId = req.params.formId;
-        var fields = formModel.createField(formId, newField);
-        res.json(fields);
+        var fields = formModel.createField(formId, newField)
+            .then(function ( field ) {
+                    //TODO this req.session.currentuser breaks my code
+                    //req.session.currentUser = doc;
+                    res.json(field);
+                },
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
     // updates field object, returns updated field object (check if correct return)
@@ -49,8 +71,14 @@ module.exports = function(app, formModel){
         var field = req.body;
         var formId = req.params.formId;
         var fieldId = req.params.fieldId;
-        var updatedField = formModel.updateField(formId, fieldId, field);
-        res.json(updatedField);
+        var updatedField = formModel.updateField(formId, fieldId, field)
+            .then(function ( updatedfield ) {
+                    res.json(updatedfield);
+                },
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
     }
 
 }

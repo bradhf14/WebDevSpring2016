@@ -122,14 +122,11 @@ module.exports = function(app, userModel) {
     // request. Responds with an array of all users
     function updateID(req,res){
 
-        console.log("updated user is called");
         var updatedUser = req.body;
         var index = req.params.id;
         var user = userModel.updateUser(index, updatedUser)
             .then(function ( doc ) {
 
-                    console.log("in user service we get back to the updated user, and this is the updated user being returned to the client")
-                    console.log(doc);
                     res.json(doc);
 
                 },
@@ -139,8 +136,6 @@ module.exports = function(app, userModel) {
                 }
             ); //adds id tag, and stores in mock data
 
-        //var users = userModel.findAllUsers();
-        //res.json(user);
        }
 
     //removes an existing user whose id property is equal to the id path parameter.

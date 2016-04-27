@@ -9,6 +9,8 @@
                 <tr>
                     <th><span class="glyphicon glyphicon-triangle-bottom"></span> Username</th>
                     <th><span class="glyphicon glyphicon-triangle-bottom"></span> Password</th>
+                    <th><span class="glyphicon glyphicon-triangle-bottom"></span> First Name</th>
+                    <th><span class="glyphicon glyphicon-triangle-bottom"></span> Last Name</th>
                     <th><span class="glyphicon glyphicon-triangle-bottom"></span> Role</th>
                     <th><span class="glyphicon glyphicon-triangle-bottom"></span> Action</th>
                 </tr>
@@ -16,63 +18,57 @@
                 <tbody>
                 <tr>
                     <td>
-                        <input type="text" class="form-control" placeholder="Username">
+                        <input ng-model="user.username" type="text" class="form-control" placeholder="Username">
                     </td>
                     <td>
-                        <input type="password" class="form-control"  placeholder="Password">
+                        <input ng-model="user.password" type="password" class="form-control"  placeholder="Password">
                     </td>
                     <td>
-                        <input type="text" class="form-control"  placeholder="role 1, role 2">
+                        <input ng-model="user.firstName" type="text" class="form-control"  placeholder="First Name">
                     </td>
                     <td>
-                        <button type="button" class="btn btn-default">
+                        <input ng-model="user.lastName" type="text" class="form-control"  placeholder="Last Name">
+                    </td>
+                    <td>
+                        <input ng-model="user.roles" ng-list type="text" class="form-control"  placeholder="role 1, role 2">
+                    </td>
+                    <td>
+                        <button type="button" class="btn btn-default" ng-click="model.addUser(user)">
                         <span class="glyphicon glyphicon-plus"></span>
                         </button>
-                        <button type="button" class="btn btn-default">
+                        <button type="button" class="btn btn-default" ng-click="model.updateUser(user)">
                             <span class="glyphicon glyphicon-ok"></span>
                         </button>
                     </td>
                 </tr>
 
-                <tr>
-                    <td>Alice</td>
-                    <td></td>
-                    <td>Student</td>
+                <tr ng-repeat = "user in users">
                     <td>
-                        <button type="button" class="btn btn-default">
+                        {{user.username}}
+                    </td>
+                    <td>
+
+                    </td>
+                    <td>
+                        {{user.firstName}}
+                    </td>
+                    <td>
+                        {{user.lastName}}
+                    </td>
+                    <td>
+                        {{user.roles}}
+                    </td>
+                    <td>
+                        <button type="button"  ng-click="model.deleteUser(user)" class="btn btn-default">
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-pencil"></span>
+                        <button type="button" ng-click="model.selectUser($index)" class="btn btn-default">
+                            <span class="glyphicon glyphicon-cog"></span>
                         </button>
                     </td>
+
                 </tr>
-                <tr>
-                    <td>Bob</td>
-                    <td></td>
-                    <td>Faculty | Admin</td>
-                    <td>
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Charlie</td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                        <button type="button" class="btn btn-default">
-                            <span class="glyphicon glyphicon-pencil"></span>
-                        </button>
-                    </td>
-                </tr>
+
                 </tbody>
             </table>
         </div>

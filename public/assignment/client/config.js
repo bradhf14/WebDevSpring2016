@@ -18,14 +18,21 @@
                     controller: 'LoginController',
                     controllerAs: "model"
                 })
-                .when('/profile', {
+                .when('/profile/:username', {
                     templateUrl: 'views/users/profile.view.html',
                     controller: 'ProfileController',
-                    controllerAs: "model"
+                    controllerAs: "model",
+                    resolve:{
+                        loggedin: checkLoggedin
+                    }
                 })
                 .when('/admin', {
                     templateUrl: 'views/admin/admin.view.html',
-                    controller: 'AdminController'
+                    controller: 'AdminController',
+                    controllerAs: "model",
+                    resolve:{
+                        isAdmin: checkIsAdmin
+                    }
                 })
                 .when('/home', {
                     templateUrl: 'views/home/home.view.html',
@@ -46,4 +53,79 @@
                     redirectTo: "/"
                 });
         });
+
+
+        var checkLoggedin = function($q, $timeout, $http, $location, $rootScope)
+        {
+            var deferred = $q.defer();
+
+            $http.get('/api/assignment/loggedin').success(function(user)
+            {
+                $rootScope.errorMessage = null;
+                // User is Authenticated
+                if (user !== '0')
+                {
+                    $rootScope.currentUser = user[0];
+                    deferred.resolve();
+                }
+                // User is Not Authenticated
+                else
+                {
+                    $rootScope.errorMessage = 'You need to log in.';
+                    deferred.reject();
+                    $location.url('/login');
+                }
+            });
+
+            return deferred.promise;
+        };
+
+        //function checkIsLoggedIn($q, $http, $location, $rootScope){
+        //
+        //    var deferred = $q.defer();
+        //    console.log("this is the user for the checkIsLoggedIn");
+        //    console.log($rootScope.currentUser);
+        //    var user = $rootScope.currentUser
+        //    $http.get("/api/assignment/loggedin", user)
+        //        .success(function(user){
+        //
+        //            console.log("are they logged in");
+        //            console.log(user);
+        //            if(user!=0){
+        //                //$rootScope.currentUser = user;
+        //                deferred.resolve();
+        //            }
+        //            else
+        //            {
+        //                $rootScope.currentUser = null;
+        //                deferred.reject();
+        //                $location.url("/login");
+        //            }
+        //
+        //        });
+        //    return deferred.promise;
+        //
+        //}
+
+
+        function checkIsAdmin($q, $http, $location, $rootScope){
+
+            var deferred = $q.defer();
+
+            $http.get("/api/assignment/isAdmin")
+                .then(function(user){
+                    if(user.data!=0){
+                        $rootScope.currentUser = user.data;
+                        deferred.resolve();
+                    }
+                    else
+                    {
+                        deferred.reject();
+                        $location.url("/home");
+                    }
+
+                });
+
+            return deferred.promise;
+        }
 })();

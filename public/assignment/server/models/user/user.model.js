@@ -22,6 +22,7 @@ module.exports = function(db, mongoose) {
         findUserById: findUserByID,                     //R Test
         findAllUsers: findAllUsers,                     //R Test
         updateUser: updateUser,                         //U
+        updateUserAdmin: updateUserAdmin,               //U
         deleteUser: deleteUser                          //D Test
         //any other necessary ones to implement here, look at CRUD requirements (believe all are included)
     };
@@ -93,7 +94,6 @@ module.exports = function(db, mongoose) {
         var deferred = q.defer();
 
         //find user by ID
-
         UserModel.find({
             _id: {$in: id}
         }, function (err, users) {
@@ -139,6 +139,33 @@ module.exports = function(db, mongoose) {
             emails: [updatedUser.emails[0]]
             }
         },
+            function (err, user) {
+                if (err) {
+                    deferred.reject(err);
+                } else {
+                    deferred.resolve(findUserByID(userId));
+                }
+            });
+
+
+
+        return deferred.promise;
+
+    }
+
+
+    function updateUserAdmin(userId, updatedUser) {
+
+        var deferred = q.defer();
+
+        UserModel.update({_id: userId},{$set:{
+                firstName: updatedUser.firstName,
+                lastName: updatedUser.lastName,
+                username: updatedUser.username,
+                password: updatedUser.password,
+                roles: updatedUser.roles
+            }
+            },
             function (err, user) {
                 if (err) {
                     deferred.reject(err);

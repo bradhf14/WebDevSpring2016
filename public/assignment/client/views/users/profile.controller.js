@@ -6,6 +6,9 @@
 
     function ProfileController($rootScope, UserService, $location, $scope, $routeParams) {
 
+        var username = $routeParams["username"];
+
+
         this.update = function(user){
 
             UserService

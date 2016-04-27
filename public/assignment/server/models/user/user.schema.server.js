@@ -14,6 +14,7 @@ module.exports = function (mongoose) {
         password: {type: String, default: "p@ssw0rd"},
         firstName: {type: String, default: "Alice"},
         lastName: {type: String, default: "Wonderland"},
+        roles: {type:[String], default: ['user']},
         emails: {type: [String], default: ["alice@Wonderland.com", "alice@gmail.com"]},
         phones: {type: [String], default: ["123-234-4321", "234-432-2344"]}
         // "the collection should be called user, not users, specifiy the collection so it doesnt default"

@@ -33,7 +33,7 @@
                         {
                             //store the new user object in the rootScope
                             $rootScope.currentUser = response.data;
-                            $location.url("/profile");
+                            $location.url("/profile/"+user.username);
                             //Use the $location service to navigate to the profile view
                             //may use this new location in the future, not sure yet
                             //$location.url("/profile/" + response._id);

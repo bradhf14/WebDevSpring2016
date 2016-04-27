@@ -10,9 +10,9 @@
 
         function login(user)
         {
-            if(user != null) {
+            if(user) {
                 UserService
-                    .findUserByCredentials(user.Username, user.Password)
+                    .login(user, user.Username, user.Password)
                     .then(function (response) {
                         //TODO This null might be redundant, look into promises
 
@@ -20,17 +20,14 @@
                             //Store the user in the $rootScope
                             $rootScope.currentUser = response.data[0];
                             $rootScope.danger = null;
-
                             //Use the $location service to navigate to profile view
-                            $location.url("/profile");
+                            $location.url("/profile/"+  response.data[0].username );
                             //$location.url("/profile/" + response.data._id);
                         } else {
                             $scope.message = "Login failed"
                         }
 
                     })
-            }else{
-                $scope.message = "Please enter a username and password"
             }
         }
     }

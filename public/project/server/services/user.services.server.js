@@ -9,6 +9,7 @@ module.exports = function(app, userModel) {
     app.put("/api/project/user/updateCities", updateCities);
     app.put("/api/project/user/updateCityStatus", updateCityStatus);
     app.put("/api/project/user/addCity", addCity);
+    app.put("/api/project/user/addCityWife", addCityWife);
     app.delete("/api/project/user/removeCity", removeCity);
     app.get("/api/project/user", findAllUser);
     app.get("/api/project/user/:id", idUser);
@@ -37,6 +38,7 @@ module.exports = function(app, userModel) {
             ); //adds id tag, and stores in mock data
 
     }
+
 
 
     function updateCities(req,res){
@@ -95,6 +97,27 @@ module.exports = function(app, userModel) {
 
                     //TODO this req.session.currentuser breaks my code
                     //req.session.currentUser = doc;
+                    res.json(user);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            ); //adds id tag, and stores in mock data
+
+
+
+    }
+
+    function addCityWife(req,res){
+
+        var username = req.query.username;
+        var password = req.query.password;
+        var wifeInfo = req.body;
+
+        user = userModel.addCityWife(wifeInfo, username, password)
+            .then(function ( user ) {
+
                     res.json(user);
                 },
                 // send error if promise rejected

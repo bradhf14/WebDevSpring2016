@@ -24,13 +24,23 @@
 
                     if (user.housewifeStatus) {
 
-                        UserService.createHousewife(user)
-                            .then(function(response){
-                            console.log("this is what is returned");
-                            console.log(response.data);
-                            $rootScope.currentUser = response.data;
-                            $location.url("/register2Wife");
-                        });
+                        user.roles = ['Housewife'];
+                        UserService
+                            .createUser(user)
+                            .then(function (response) {
+
+                                console.log("this is what is returned");
+                                console.log(response.data);
+
+                                if (response != null) {   //store the new user object in the rootScope
+                                    $rootScope.currentUser = response.data;
+                                    $location.url("/register2Wife");
+                                }
+                                else {
+                                    $rootScope.danger = "Unable to register";
+                                }
+                            });
+
                     } else {
 
                     UserService

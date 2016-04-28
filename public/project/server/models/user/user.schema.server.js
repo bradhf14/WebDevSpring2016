@@ -8,12 +8,13 @@ module.exports = function (mongoose) {
 
 
     var UserSchemaP = mongoose.Schema({
-        username: {type: String, default: "kenya"},
-        password: {type: String, default: "moore"},
-        name: {type: String, default: "Kenya"},
+        username: {type: String, default: ""},
+        password: {type: String, default: ""},
+        name: {type: String, default: ""},
         city: {type: String, default: ""},
+        verified: {type: Boolean, default: false},
         roles: {type:[String], default: ['Fan']},
-        email: {type: String, default: "alice@Wonderland.com"},
+        email: {type: String, default: ""},
         cities: [{
             city:{type: String, default: ""},
             View:{type: Boolean, default: false},

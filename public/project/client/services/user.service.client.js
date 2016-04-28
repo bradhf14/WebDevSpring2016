@@ -109,14 +109,15 @@
             findUserById: findUserById,
             addCityStatus: addCityStatus,
             addCity: addCity,
+            addCityHousewife: addCityHousewife,
 
             findAllUsers: findAllUsers,
             findAllCities: findAllCities,
             findAllUnwatchedCities: findAllUnwatchedCities,
             removeCity: removeCity,
             findUserByUsernameAndPassword: findUserByUsernameAndPassword,
-            createHousewife: createHousewife,
-            addCityHousewife: addCityHousewife,
+
+
             getUnverified: getUnverified,
             verify: verify,
             deny: deny,
@@ -129,24 +130,7 @@
 
         function createUser(user,callback){
 
-            console.log("we get to the client side service")
             return $http.post("/api/project/user", user);
-        }
-
-        function createHousewife(user, callback){
-
-            var wifeCreate = {
-                username: user.username,
-                password: user.password,
-                email: user.email,
-                verified: false,
-                _id: (new Date).getTime(),
-                roles: ["Housewife"],
-                city: ""
-            };
-
-            model.users.push(wifeCreate);
-            callback(wifeCreate);
         }
 
         //Adds City to user
@@ -191,17 +175,9 @@
 
         }
 
-        function addCityHousewife(wife, username, password, callback){
+        function addCityHousewife(wife, username, password){
 
-            for(var i = 0; i < model.users.length; i++){
-                if(model.users[i].username == username){
-                    if(model.users[i].password == password){
-                        model.users[i].city = wife.City;
-                        model.users[i].name = wife.name;
-                        callback(model.users[i]);
-                    }
-                }
-            }
+            return $http.put("/api/project/user/addCityWife/?username=" + username + "&password=" + password, wife);
 
         }
 

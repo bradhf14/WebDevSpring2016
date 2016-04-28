@@ -16,12 +16,18 @@
 
         function register(user) {
 
-            UserService.addCityHousewife(user,$rootScope.currentUser.username, $rootScope.currentUser.password, function(response){
-                $rootScope.currentUser = response;
-                $location.url("/profileWife");
+            UserService.addCityHousewife(user,$rootScope.currentUser.username, $rootScope.currentUser.password)
+                .then(function(response){
+
+                    UserService.findUserById($rootScope.currentUser._id)
+                        .then(function(response) {
+
+                            $rootScope.currentUser = response.data[0];
+                            console.log($rootScope.currentUser);
+                            $location.url("/profileWife");
+                        });
             });
-
-
+            Mor
         }
     }
 })();

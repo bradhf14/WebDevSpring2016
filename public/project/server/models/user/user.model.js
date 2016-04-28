@@ -32,7 +32,7 @@ module.exports = function(db, mongoose) {
         findUserById: findUserByID,                     //R Test
         findAllUsers: findAllUsers,                     //R Test
         removeCity: removeCity,                         //D
-
+        addCityWife: addCityWife,                       //U
 
         updateUser: updateUser,                         //U
         updateUserAdmin: updateUserAdmin,               //U
@@ -47,11 +47,11 @@ module.exports = function(db, mongoose) {
     function createUser(user) {
 
         //use q to defer the response
-        var deferred  = q.defer();
+        var deferred = q.defer();
 
-        UserModelP.create(user, function(err,doc){
+        UserModelP.create(user, function (err, doc) {
 
-            if (err){
+            if (err) {
                 //reject promise if error
                 deferred.reject(err);
             } else {
@@ -63,20 +63,21 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
-    function addCities(userIn, username, password){
+    function addCities(userIn, username, password) {
 
         var deferred = q.defer();
 
         //find user by username and password
         UserModelP.find
-        ({$and: [{username: username},{password: password}]
+        ({
+            $and: [{username: username}, {password: password}]
         }, function (err, user) {
             if (err) {
                 deferred.reject(err);
             } else {
 
                 var citiesToAdd = [];
-                for(var j = 0; j< city.length; j++){
+                for (var j = 0; j < city.length; j++) {
                     var cityToAdd = {
                         city: city[j],
                         View: userIn[city[j]],
@@ -86,10 +87,11 @@ module.exports = function(db, mongoose) {
                     citiesToAdd.push(cityToAdd);
                 }
 
-                UserModelP.update({_id: user[0]._id},{$set:{
-                    cities: citiesToAdd
+                UserModelP.update({_id: user[0]._id}, {
+                    $set: {
+                        cities: citiesToAdd
                     }
-                },  function (err, response) {
+                }, function (err, response) {
                     if (err) {
                         deferred.reject(err);
                     } else {
@@ -106,28 +108,30 @@ module.exports = function(db, mongoose) {
     }
 
 
-    function addCityStatus(status, username, password){
+    function addCityStatus(status, username, password) {
 
         var deferred = q.defer();
 
         //find user by username and password
         UserModelP.find
-        ({$and: [{username: username},{password: password}]
+        ({
+            $and: [{username: username}, {password: password}]
         }, function (err, user) {
             if (err) {
                 deferred.reject(err);
             } else {
 
                 var citiesToUpdate = user[0].cities;
-                for(var j = 0; j< city.length; j++){
+                for (var j = 0; j < city.length; j++) {
                     citiesToUpdate[j].Season = status.Season[city[j]];
                     citiesToUpdate[j].Episode = status.Episode[city[j]];
                 }
 
-                UserModelP.update({_id: user[0]._id},{$set:{
-                    cities: citiesToUpdate
-                }
-                },  function (err, response) {
+                UserModelP.update({_id: user[0]._id}, {
+                    $set: {
+                        cities: citiesToUpdate
+                    }
+                }, function (err, response) {
                     if (err) {
                         deferred.reject(err);
                     } else {
@@ -143,12 +147,13 @@ module.exports = function(db, mongoose) {
     }
 
 
-    function addCity(cityInfo, username, password){
+    function addCity(cityInfo, username, password) {
 
         var deferred = q.defer();
 
         //find user by username and password
-        UserModelP.find({$and: [{username: username},{password: password}]
+        UserModelP.find({
+            $and: [{username: username}, {password: password}]
         }, function (err, user) {
             if (err) {
                 deferred.reject(err);
@@ -157,19 +162,20 @@ module.exports = function(db, mongoose) {
                 var citiesToUpdate = user[0].cities;
 
 
-
-                for(var j = 0; j < city.length; j++) {
+                for (var j = 0; j < city.length; j++) {
 
                     if (cityInfo.addCity == city[j]) {
                         citiesToUpdate[j].View = true;
                         citiesToUpdate[j].Episode = cityInfo.addEpisode;
                         citiesToUpdate[j].Season = cityInfo.addSeason;
-                    }}
-
-                UserModelP.update({_id: user[0]._id},{$set:{
-                    cities: citiesToUpdate
+                    }
                 }
-                },  function (err, response) {
+
+                UserModelP.update({_id: user[0]._id}, {
+                    $set: {
+                        cities: citiesToUpdate
+                    }
+                }, function (err, response) {
                     if (err) {
                         deferred.reject(err);
                     } else {
@@ -182,12 +188,13 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
-    function removeCity(cityIndex, username, password){
+    function removeCity(cityIndex, username, password) {
 
         var deferred = q.defer();
 
         //find user by username and password
-        UserModelP.find({$and: [{username: username},{password: password}]
+        UserModelP.find({
+            $and: [{username: username}, {password: password}]
         }, function (err, user) {
             if (err) {
                 deferred.reject(err);
@@ -195,18 +202,20 @@ module.exports = function(db, mongoose) {
 
                 var citiesToUpdate = user[0].cities;
 
-                for(var j = 0; j < city.length; j++) {
+                for (var j = 0; j < city.length; j++) {
 
                     if (cityIndex == j) {
                         citiesToUpdate[j].View = false;
                         citiesToUpdate[j].Episode = 0;
                         citiesToUpdate[j].Season = 0;
-                    }}
-
-                UserModelP.update({_id: user[0]._id},{$set:{
-                    cities: citiesToUpdate
+                    }
                 }
-                },  function (err, response) {
+
+                UserModelP.update({_id: user[0]._id}, {
+                    $set: {
+                        cities: citiesToUpdate
+                    }
+                }, function (err, response) {
                     if (err) {
                         deferred.reject(err);
                     } else {
@@ -218,19 +227,42 @@ module.exports = function(db, mongoose) {
 
         return deferred.promise;
 
-        //for (var i = 0; i < model.users.length; i++){
-        //    if(model.users[i].username == username){
-        //        if(model.users[i].password == password){
-        //
-        //
-        //            model.users[i].cities[cityIndex].View = false;
-        //            model.users[i].cities[cityIndex].Episode = 0;
-        //            model.users[i].cities[cityIndex].Season = 0;
-        //        }
-        //    }
-        //}
 
     }
+
+    function addCityWife(wifeInfo, username, password) {
+
+
+        var deferred = q.defer();
+
+        //find user by username and password
+        UserModelP.find({
+            $and: [{username: username}, {password: password}]
+        }, function (err, user) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+
+                UserModelP.update({_id: user[0]._id}, {
+                    $set: {
+                        name: wifeInfo.name,
+                        city: wifeInfo.city
+                    }
+                }, function (err, response) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(findUserByID(user[0]._id));
+                    }
+                });
+            }
+        });
+
+        return deferred.promise;
+
+    }
+
 
     function findUserByUsername(username) {
 

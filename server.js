@@ -14,6 +14,7 @@ var mongoose      = require('mongoose');
 
 // connect to the database
 var db = mongoose.connect('mongodb://localhost/NewDB');
+//var db2 = mongoose.connect('mongodb://localhost/ProjectDB');
 
 //"Figure this out later";//mongoose.connect(connectionString);
 
@@ -32,8 +33,9 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 var ipaddress = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
-var port = process.env.OPENSHIFT_NODEJS_PORT || 3000;
+var port = process.env.OPENSHIFT_NODEJS_PORT || 4000;
 
 require("./public/assignment/server/app.js")(app, db, mongoose);
+require("./public/project/server/app.js")(app, db, mongoose);
 
 app.listen(port, ipaddress);

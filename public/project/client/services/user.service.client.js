@@ -6,7 +6,7 @@
         .module("HousewivesApp")
         .factory("UserService", UserService);
 
-    function UserService() {
+    function UserService($http) {
 
         var model = {
             users : [
@@ -106,6 +106,7 @@
 
             createUser: createUser,
             addCities: addCities,
+            findUserById: findUserById,
             addCityStatus: addCityStatus,
             addCity: addCity,
 
@@ -128,18 +129,8 @@
 
         function createUser(user,callback){
 
-            var userCreate = {
-                username: user.username,
-                password: user.password,
-                email: user.email,
-                _id: (new Date).getTime(),
-                roles: "Fan",
-                cities:[]
-            };
-
-            model.users.push(userCreate);
-            callback(userCreate);
-
+            console.log("we get to the client side service")
+            return $http.post("/api/project/user", user);
         }
 
         function createHousewife(user, callback){
@@ -161,22 +152,13 @@
         //Adds City to user
         function addCities(user, username, password, callback){
 
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i].username == username){
-                    if(model.users[i].password == password){
-                        for(var j = 0; j<this.city.length; j++){
-                            var cityToAdd = {
-                                city: this.city[j],
-                                View: user[this.city[j]],
-                                Season: 0,
-                                Episode: 0
-                            };
-                            model.users[i].cities.push(cityToAdd);
-                        }
-                        callback(model.users[i]);
-                    }
-                }
-            }
+            return $http.put("/api/project/user/updateCities/?username=" + username + "&password=" + password, user);
+
+        }
+
+        function findUserById(id){
+            return $http.get("/api/project/user/"+id);
+
         }
 
         function addCityStatus(userSea, userEp, username, password, callback){

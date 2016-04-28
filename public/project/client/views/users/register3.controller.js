@@ -12,6 +12,7 @@
 
     function Register3Controller(UserService, $rootScope, $location) {
 
+
         var rc3 = this;
         rc3.register  =   register;
         rc3.cities = UserService.findAllCities();
@@ -22,6 +23,10 @@
             rc3.Episode[rc3.cities[i]] = 0;
             rc3.Season[rc3.cities[i]] = 0;
         }
+
+        console.log("from register 3 controller");
+        console.log(rc3.cities);
+        console.log($rootScope.currentUser);
 
         function register(){
 

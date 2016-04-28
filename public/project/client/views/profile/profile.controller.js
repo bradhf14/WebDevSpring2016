@@ -16,12 +16,38 @@
         function addCity(user)
         {
             UserService.addCity(user, $rootScope.currentUser.username, $rootScope.currentUser.password)
-            prof.unwatched = UserService.findAllUnwatchedCities($rootScope.currentUser);
+                .then(function(response){
+
+                    UserService.findUserById($rootScope.currentUser._id)
+                        .then(function(response) {
+                            $rootScope.currentUser = response.data[0];
+                            console.log("this is hte new current user");
+                            console.log( $rootScope.currentUser);
+                            prof.unwatched = UserService.findAllUnwatchedCities($rootScope.currentUser);
+                            $location.url("/profile");
+                        });
+
+                });
+
         }
 
         function removeCity(i){
-            UserService.removeCity(i,$rootScope.currentUser.username, $rootScope.currentUser.password);
-            prof.unwatched = UserService.findAllUnwatchedCities($rootScope.currentUser);
+            console.log(i);
+            UserService.removeCity(i,$rootScope.currentUser.username, $rootScope.currentUser.password)
+                .then(function(response){
+
+                    UserService.findUserById($rootScope.currentUser._id)
+                        .then(function(response) {
+                            $rootScope.currentUser = response.data[0];
+                            console.log("this is hte new current user");
+                            console.log( $rootScope.currentUser);
+                            prof.unwatched = UserService.findAllUnwatchedCities($rootScope.currentUser);
+                            $location.url("/profile");
+                        });
+
+                });
+
+
         }
 
     }

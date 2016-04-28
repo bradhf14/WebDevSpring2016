@@ -161,21 +161,13 @@
 
         }
 
-        function addCityStatus(userSea, userEp, username, password, callback){
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i].username == username){
-                    if(model.users[i].password == password){
-                        for(var j = 0; j<this.city.length; j++){
-                            model.users[i].cities[j].Season = userSea[this.city[j]];
-                            model.users[i].cities[j].Episode = userEp[this.city[j]];
-                        }
+        function addCityStatus(status, username, password, callback){
 
-                        callback(model.users[i]);
-                    }
-                }
-            }
+            console.log("we call the add city status thing from client going to server now");
+            return $http.put("/api/project/user/updateCityStatus/?username=" + username + "&password=" + password, status);
         }
 
+        //TODO move this over to server
         function findAllUnwatchedCities(user){
             var unwatched = [];
             for(var i = 0; i < this.city.length; i++) {
@@ -187,37 +179,15 @@
             return unwatched;
         }
 
-        function addCity(user, username, password){
+        function addCity(cityInfo, username, password){
 
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i].username == username){
-                    if(model.users[i].password == password){
-
-                        for(var j = 0; j < this.city.length; j++) {
-                            if (user.addCity == this.city[j]) {
-                                model.users[i].cities[j].View = true;
-                                model.users[i].cities[j].Episode = user.addEpisode;
-                                model.users[i].cities[j].Season = user.addSeason;
-                            }
-                        }
-                    }
-                }
-            }
+            return $http.put("/api/project/user/addCity/?username=" + username + "&password=" + password,cityInfo);
         }
+
 
         function removeCity(cityIndex, username, password){
 
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i].username == username){
-                    if(model.users[i].password == password){
-
-
-                                model.users[i].cities[cityIndex].View = false;
-                                model.users[i].cities[cityIndex].Episode = 0;
-                                model.users[i].cities[cityIndex].Season = 0;
-                            }
-                        }
-                    }
+            return $http.delete("/api/project/user/removeCity/?username=" + username + "&password=" + password + "&cityIndex=" + cityIndex);
 
         }
 

@@ -30,10 +30,21 @@
 
         function register(){
 
+            var status = {
+                Season: rc3.Season,
+                Episode: rc3.Episode
+            };
+
             UserService
-                .addCityStatus(rc3.Season, rc3.Episode, $rootScope.currentUser.username, $rootScope.currentUser.password,function(response) {
-                    $rootScope.currentUser = response;
-                    $location.url("/profile");
+                .addCityStatus(status, $rootScope.currentUser.username, $rootScope.currentUser.password)
+                .then(function(response) {
+
+                    UserService.findUserById($rootScope.currentUser._id)
+                        .then(function(response) {
+                            $rootScope.currentUser = response.data[0];
+                            $location.url("/profile");
+                        });
+
                 });
         }
     }

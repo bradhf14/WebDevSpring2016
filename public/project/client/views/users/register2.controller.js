@@ -18,20 +18,13 @@
         }
             function register()
             {
-
-                console.log("register is called");
                     UserService
                         .addCities(rc2.viewer, $rootScope.currentUser.username, $rootScope.currentUser.password)
                         .then(function(response) {
 
-                                console.log("cities are added");
-                                console.log(response);
-                                console.log($rootScope.currentUser);
                                 UserService.findUserById($rootScope.currentUser._id)
                                     .then(function(response) {
                                         $rootScope.currentUser = response.data[0];
-                                        console.log("current user above vs below");
-                                        console.log($rootScope.currentUser);
                                         $location.url("/register3");
                                     });
 

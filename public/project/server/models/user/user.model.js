@@ -25,10 +25,15 @@ module.exports = function(db, mongoose) {
     var api = {
         createUser: createUser,                         //C
         addCities: addCities,                           //U
+        addCityStatus: addCityStatus,                   //U
+        addCity: addCity,                               //U
         findUserByUsername: findUserByUsername,         //R Test
         findUserByCredentials: findUserByCredentials,   //R
         findUserById: findUserByID,                     //R Test
         findAllUsers: findAllUsers,                     //R Test
+        removeCity: removeCity,                         //D
+
+
         updateUser: updateUser,                         //U
         updateUserAdmin: updateUserAdmin,               //U
         deleteUser: deleteUser                          //D Test
@@ -98,7 +103,132 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
 
 
+    }
 
+
+    function addCityStatus(status, username, password){
+
+        var deferred = q.defer();
+
+        //find user by username and password
+        UserModelP.find
+        ({$and: [{username: username},{password: password}]
+        }, function (err, user) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+                var citiesToUpdate = user[0].cities;
+                for(var j = 0; j< city.length; j++){
+                    citiesToUpdate[j].Season = status.Season[city[j]];
+                    citiesToUpdate[j].Episode = status.Episode[city[j]];
+                }
+
+                UserModelP.update({_id: user[0]._id},{$set:{
+                    cities: citiesToUpdate
+                }
+                },  function (err, response) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(findUserByID(user[0]._id));
+                    }
+                });
+            }
+        });
+
+        return deferred.promise;
+
+
+    }
+
+
+    function addCity(cityInfo, username, password){
+
+        var deferred = q.defer();
+
+        //find user by username and password
+        UserModelP.find({$and: [{username: username},{password: password}]
+        }, function (err, user) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+                var citiesToUpdate = user[0].cities;
+
+
+
+                for(var j = 0; j < city.length; j++) {
+
+                    if (cityInfo.addCity == city[j]) {
+                        citiesToUpdate[j].View = true;
+                        citiesToUpdate[j].Episode = cityInfo.addEpisode;
+                        citiesToUpdate[j].Season = cityInfo.addSeason;
+                    }}
+
+                UserModelP.update({_id: user[0]._id},{$set:{
+                    cities: citiesToUpdate
+                }
+                },  function (err, response) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(findUserByID(user[0]._id));
+                    }
+                });
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function removeCity(cityIndex, username, password){
+
+        var deferred = q.defer();
+
+        //find user by username and password
+        UserModelP.find({$and: [{username: username},{password: password}]
+        }, function (err, user) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+                var citiesToUpdate = user[0].cities;
+
+                for(var j = 0; j < city.length; j++) {
+
+                    if (cityIndex == j) {
+                        citiesToUpdate[j].View = false;
+                        citiesToUpdate[j].Episode = 0;
+                        citiesToUpdate[j].Season = 0;
+                    }}
+
+                UserModelP.update({_id: user[0]._id},{$set:{
+                    cities: citiesToUpdate
+                }
+                },  function (err, response) {
+                    if (err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve(findUserByID(user[0]._id));
+                    }
+                });
+            }
+        });
+
+        return deferred.promise;
+
+        //for (var i = 0; i < model.users.length; i++){
+        //    if(model.users[i].username == username){
+        //        if(model.users[i].password == password){
+        //
+        //
+        //            model.users[i].cities[cityIndex].View = false;
+        //            model.users[i].cities[cityIndex].Episode = 0;
+        //            model.users[i].cities[cityIndex].Season = 0;
+        //        }
+        //    }
+        //}
 
     }
 
@@ -107,8 +237,6 @@ module.exports = function(db, mongoose) {
         var deferred = q.defer();
 
         //find user by username
-
-
 
         UserModelP.find({
             username: {$in: username}
@@ -154,8 +282,6 @@ module.exports = function(db, mongoose) {
             if (err) {
                 deferred.reject(err);
             } else {
-                console.log("we found by ID the following user");
-                console.log(user);
                 deferred.resolve(user);
             }
         });

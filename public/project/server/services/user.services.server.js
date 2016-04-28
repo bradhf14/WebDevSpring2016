@@ -7,6 +7,9 @@
 module.exports = function(app, userModel) {
     app.post("/api/project/user", register);
     app.put("/api/project/user/updateCities", updateCities);
+    app.put("/api/project/user/updateCityStatus", updateCityStatus);
+    app.put("/api/project/user/addCity", addCity);
+    app.delete("/api/project/user/removeCity", removeCity);
     app.get("/api/project/user", findAllUser);
     app.get("/api/project/user/:id", idUser);
     app.put("/api/project/user/:id", updateID);
@@ -19,13 +22,10 @@ module.exports = function(app, userModel) {
     //creates a new user embedded in the body of the request, and responds with an array of all users
     function register(req,res){
 
-        console.log("we are on the server side now");
         var user = req.body;                //TODO check if body is correct
         user = userModel.createUser(user)
             .then(function ( user ) {
 
-                    console.log("they are created");
-                    console.log(user);
                     //TODO this req.session.currentuser breaks my code
                     //req.session.currentUser = doc;
                     res.json(user);
@@ -49,9 +49,7 @@ module.exports = function(app, userModel) {
             .then(function ( user ) {
 
                     //TODO this req.session.currentuser breaks my code
-                    //req.session.currentUser = doc;
-                    console.log("this is waht we return to the client say WERTTTT OKAUUURR");
-                    console.log(user);
+                    //req.session.currentUser = user;
                     res.json(user);
                 },
                 // send error if promise rejected
@@ -62,6 +60,77 @@ module.exports = function(app, userModel) {
 
     }
 
+    function updateCityStatus(req,res){
+
+        var username = req.query.username;
+        var password = req.query.password;
+        var status = req.body;
+
+
+        user = userModel.addCityStatus(status, username, password)
+            .then(function ( user ) {
+
+                    //TODO this req.session.currentuser breaks my code
+                    //req.session.currentUser = doc;
+
+                    res.json(user);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            ); //adds id tag, and stores in mock data
+
+    }
+
+
+    function addCity(req,res){
+
+        var username = req.query.username;
+        var password = req.query.password;
+        var cityInfo = req.body;
+
+        user = userModel.addCity(cityInfo, username, password)
+            .then(function ( user ) {
+
+                    //TODO this req.session.currentuser breaks my code
+                    //req.session.currentUser = doc;
+                    res.json(user);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            ); //adds id tag, and stores in mock data
+
+
+
+    }
+
+    function removeCity(req,res){
+
+        var username = req.query.username;
+        var password = req.query.password;
+        var cityIndex = req.query.cityIndex;
+
+        console.log("this is the city index");
+        console.log(cityIndex);
+        user = userModel.removeCity(cityIndex, username, password)
+            .then(function ( user ) {
+
+                    //TODO this req.session.currentuser breaks my code
+                    //req.session.currentUser = doc;
+                    res.json(user);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            ); //adds id tag, and stores in mock data
+
+
+
+    }
 
 
 

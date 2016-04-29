@@ -21,7 +21,7 @@
                     "episode": 8,
                     "post": "Moore Mansion is almost complete"
                 },
-                {   "_id": "000",
+                {   "_id": "001",
                     //"time": "1205",
                     "hwID": "1234",
                     "hwName": "Kandi Burruss",
@@ -30,16 +30,16 @@
                     "episode": 1,
                     "post": "Season 2 of the Kandi Factory taping now"
                 },
-                {   "_id": "000",
+                {   "_id": "002",
                     //"time": "1205",
                     "hwID": "1234",
                     "hwName": "Kenya Moore",
                     "city": "The Real Housewives of Atlanta",
                     "season": 4,
                     "episode": 5,
-                    "post": "Kim Fields instigated that entire fight, so I just twirled away"
+                    "post": "Kim Fields instigated that entire fight, clearly I was in the right"
                 },
-                {   "_id": "000",
+                {   "_id": "003",
                     //"time": "1205",
                     "username": "Bob",
                     "city": "The Real Housewives of Atlanta",
@@ -47,8 +47,6 @@
                     "episode": 8,
                     "post": "Kenya was crazy on that Puerto Rico trip."
                 },
-
-
 
             ],
 

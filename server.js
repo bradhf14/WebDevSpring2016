@@ -13,11 +13,15 @@ var mongoose      = require('mongoose');
 //mongoose.connect('mongodb://localhost/NewDB');
 
 // connect to the database
-var db = mongoose.connect('mongodb://localhost/NewDB');
+
 //var db2 = mongoose.connect('mongodb://localhost/ProjectDB');
 
 //"Figure this out later";//mongoose.connect(connectionString);
-connectionString = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
+//connectionString = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
+var connectionString = process.env.OPENSHIFT_MONGODB_DB_URL || 'mongodb://127.0.0.1:27017/cs5610spring2016';
+
+//var db = mongoose.connect('mongodb://localhost/NewDB');
+var db = mongoose.connect(connectionString);
 
 //TODO figure out how to attach schemas
 

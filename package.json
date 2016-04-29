@@ -27,11 +27,13 @@
     "cookie-parser": "^1.4.1",
     "express": "^3.4.8",
     "express-session": "^1.13.0",
+    "http": "0.0.0",
     "mongoose": "^4.4.14",
     "multer": "^1.1.0",
     "node-uuid": "^1.4.7",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
+    "q": "^1.4.1",
     "uuid": "^2.0.2"
   },
   "scripts": {

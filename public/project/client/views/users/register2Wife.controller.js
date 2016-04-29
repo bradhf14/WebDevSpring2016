@@ -16,6 +16,8 @@
 
         function register(user) {
 
+
+            console.log(user);
             UserService.addCityHousewife(user,$rootScope.currentUser.username, $rootScope.currentUser.password)
                 .then(function(response){
 
@@ -27,7 +29,7 @@
                             $location.url("/profileWife");
                         });
             });
-            Mor
+
         }
     }
 })();

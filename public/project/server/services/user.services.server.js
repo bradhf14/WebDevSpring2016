@@ -11,54 +11,70 @@ module.exports = function(app, userModel) {
     app.put("/api/project/user/addCity", addCity);
     app.put("/api/project/user/addCityWife", addCityWife);
     app.delete("/api/project/user/removeCity", removeCity);
+    app.get("/api/project/getUnverified", getUnverified);
     app.get("/api/project/user", findAllUser);
     app.get("/api/project/user/:id", idUser);
+    app.get("/api/project/login", login);
     app.put("/api/project/user/:id", updateID);
     app.delete("/api/project/user/:id", deleteID);
+    app.post("/api/project/verifyWife", verifyWife);
+    app.post("/api/project/denyWife",denyWife);
 
-
-    //any additional mappings you might need
-    //request to read all users and respond with all users
 
     //creates a new user embedded in the body of the request, and responds with an array of all users
-    function register(req,res){
+    function register(req, res) {
 
-        var user = req.body;                //TODO check if body is correct
+        var user = req.body;
         user = userModel.createUser(user)
-            .then(function ( user ) {
+            .then(function (user) {
 
-                    //TODO this req.session.currentuser breaks my code
-                    //req.session.currentUser = doc;
                     res.json(user);
                 },
-                // send error if promise rejected
-                function ( err ) {
+
+                function (err) {
                     res.status(400).send(err);
                 }
-            ); //adds id tag, and stores in mock data
+            );
 
     }
 
+    function login(req, res){
 
+        var username = req.query.username;
+        var password = req.query.password;
+
+        userModel
+            .findUserByCredentials({username: username, password: password})
+            .then(
+                function (user) {
+                    if (!user) {
+                        res.json(null);
+                    }
+
+                    res.json(user);
+                },
+                function (err) {
+                    if (err) {
+                        res.json(null);
+                    }
+                }
+            );
+    }
 
     function updateCities(req,res){
 
         var username = req.query.username;
         var password = req.query.password;
 
-        var user = req.body;                //TODO check if body is correct
+        var user = req.body;
         user = userModel.addCities(user, username, password)
             .then(function ( user ) {
-
-                    //TODO this req.session.currentuser breaks my code
-                    //req.session.currentUser = user;
                     res.json(user);
                 },
-                // send error if promise rejected
                 function ( err ) {
                     res.status(400).send(err);
                 }
-            ); //adds id tag, and stores in mock data
+            );
 
     }
 
@@ -72,16 +88,13 @@ module.exports = function(app, userModel) {
         user = userModel.addCityStatus(status, username, password)
             .then(function ( user ) {
 
-                    //TODO this req.session.currentuser breaks my code
-                    //req.session.currentUser = doc;
-
                     res.json(user);
                 },
                 // send error if promise rejected
                 function ( err ) {
                     res.status(400).send(err);
                 }
-            ); //adds id tag, and stores in mock data
+            );
 
     }
 
@@ -95,15 +108,13 @@ module.exports = function(app, userModel) {
         user = userModel.addCity(cityInfo, username, password)
             .then(function ( user ) {
 
-                    //TODO this req.session.currentuser breaks my code
-                    //req.session.currentUser = doc;
                     res.json(user);
                 },
                 // send error if promise rejected
                 function ( err ) {
                     res.status(400).send(err);
                 }
-            ); //adds id tag, and stores in mock data
+            );
 
 
 
@@ -124,7 +135,7 @@ module.exports = function(app, userModel) {
                 function ( err ) {
                     res.status(400).send(err);
                 }
-            ); //adds id tag, and stores in mock data
+            );
 
 
 
@@ -136,21 +147,61 @@ module.exports = function(app, userModel) {
         var password = req.query.password;
         var cityIndex = req.query.cityIndex;
 
-        console.log("this is the city index");
-        console.log(cityIndex);
         user = userModel.removeCity(cityIndex, username, password)
             .then(function ( user ) {
 
-                    //TODO this req.session.currentuser breaks my code
-                    //req.session.currentUser = doc;
                     res.json(user);
                 },
                 // send error if promise rejected
                 function ( err ) {
                     res.status(400).send(err);
                 }
-            ); //adds id tag, and stores in mock data
+            );
 
+
+
+    }
+
+    function getUnverified(req,res){
+
+        userModel.getUnverified()
+            .then(function (users) {
+                    res.json(users);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
+
+    }
+
+    function verifyWife(req,res){
+        var wife = req.body;
+
+        userModel.verifyWife(wife)
+            .then(function (users) {
+                    res.json(users);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
+    }
+
+    function denyWife(req,res){
+        var wife = req.body;
+
+        userModel.denyWife(wife)
+            .then(function (users) {
+                    res.json(users);
+                },
+                // send error if promise rejected
+                function ( err ) {
+                    res.status(400).send(err);
+                }
+            );
 
 
     }
@@ -172,8 +223,7 @@ module.exports = function(app, userModel) {
             };
             var users = userModel.findUserByCredentials(credentials)
                 .then(function ( doc ) {
-                        //TODO this req.session.currentuser breaks my code
-                        //req.session.currentUser = doc;
+
                         res.json(doc);
                     },
                     // send error if promise rejected
@@ -185,11 +235,10 @@ module.exports = function(app, userModel) {
             if (username){
                 var user = userModel.findUserByUsername(username)
                     .then(function ( doc ) {
-                            //TODO this req.session.currentuser breaks my code
-                            //req.session.currentUser = doc;
+
                             res.json(doc);
                         },
-                        // send error if promise rejected
+
                         function ( err ) {
                             res.status(400).send(err);
                         }

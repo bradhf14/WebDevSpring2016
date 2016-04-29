@@ -26,7 +26,7 @@
         </li>
     </ul>
     <!--  Review Form -->
-    <div ng-show = "currentUser.roles.indexOf('Housewife') >= 0" >
+    <div ng-show = "currentUser.verified == true" >
     <h4>Submit a Post</h4>
     <fieldset class="form-group">
         <select ng-model="newPost.city" class="form-control" ng-options="city for city in model.cities" title="City" required >

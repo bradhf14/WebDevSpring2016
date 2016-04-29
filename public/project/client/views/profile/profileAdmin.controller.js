@@ -8,21 +8,35 @@
     function AdminProfileController($rootScope, UserService, $location) {
 
         var prof = this;
-        prof.unverified = UserService.getUnverified();
+        UserService.getUnverified()
+            .then(function(response){
+                prof.unverified = response.data;
+            });
+
         prof.approve = approve;
         prof.deny = deny;
 
         function approve(i){
 
             var approvedWife = prof.unverified[i];
-            UserService.verify(approvedWife);
-            prof.unverified = UserService.getUnverified();
+            UserService.verify(approvedWife)
+                .then(function(response){
+                    UserService.getUnverified()
+                        .then(function(response){
+                            prof.unverified = response.data;
+                        });
+                });
+
         }
 
         function deny(i){
             var deniedWife = prof.unverified[i];
-            UserService.deny(deniedWife);
-            prof.unverified = UserService.getUnverified();
+            UserService.deny(deniedWife).then(function(response){
+                UserService.getUnverified()
+                    .then(function(response){
+                        prof.unverified = response.data;
+                    });
+            });
         }
     }
 })();

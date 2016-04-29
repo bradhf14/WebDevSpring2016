@@ -8,6 +8,7 @@
 
     function UserService($http) {
 
+        //TODO don't need model anymore, can remove
         var model = {
             users : [
 
@@ -110,6 +111,7 @@
             addCityStatus: addCityStatus,
             addCity: addCity,
             addCityHousewife: addCityHousewife,
+            login: login,
 
             findAllUsers: findAllUsers,
             findAllCities: findAllCities,
@@ -147,7 +149,7 @@
 
         function addCityStatus(status, username, password, callback){
 
-            console.log("we call the add city status thing from client going to server now");
+
             return $http.put("/api/project/user/updateCityStatus/?username=" + username + "&password=" + password, status);
         }
 
@@ -181,90 +183,53 @@
 
         }
 
-        function findUserByUsernameAndPassword(username, password, callback){
-
-            var noUser = true;
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i].username == username){
-                    if(model.users[i].password == password){
-                        callback(model.users[i]);
-                        noUser = false;
-                    }
-                }
-            }
-            if(noUser == true) {
-                callback(null);
-            }
+        function login(username, password) {
+            return $http.get("/api/project/login?username=" + username + "&password=" + password);
         }
 
-        function findAllUsers(callback){
 
-            callback(model.users);
+        function findUserByUsernameAndPassword(username, password){
+            return $http.get ("/api/project/user?username=" + username + "&password=" + password);
         }
 
+        function findAllUsers(){
+            return $http.get ("/api/project/admin/user");
+        }
+
+        //TODO Move over to server
         function findAllCities(){
 
             return (model.city);
         }
 
         function getUnverified(){
-            var unverified = [];
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i].roles[0] == 'Housewife'){
-                    if(model.users[i].verified == false){
-                        unverified.push(model.users[i]);
 
-                    }
-                }
-            }
+            return $http.get("/api/project/getUnverified");
 
-            return unverified;
         }
 
         function verify(wife){
 
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i]._id == wife._id){
-                    model.users[i].verified = true;
-                }
-            }
+            return $http.post("/api/project/verifyWife", wife);
+
         }
 
         //Deletes wife's profile, this isn't best practice, so therefore we might want to change this
         function deny(wife){
 
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i]._id == wife._id){
-                    model.users.splice(i, 1);
-
-                }
-            }
-        }
-
-        //TODO: Check logic
-        function deleteUserById(userId, callback){
-            for (i = 0; i < model.users.length; i++){
-                if(model.users[i]._id == userId){
-                    model.users.splice(i,1);
-                }
-            }
-            callback(model.users);
-        }
-
-        function updateUser(userId, user, callback){
-
-            for (var i = 0; i < model.users.length; i++){
-                if(model.users[i]._id == userId){
-                    model.users[i].firstName = user.firstName;
-                    model.users[i].lastName = user.lastName;
-                    model.users[i].username = user.username;
-                    model.users[i].password = user.password;
-                    model.users[i].roles = user.roles;
-                    callback(model.users[i]);
-                }
-            }
+            return $http.post("/api/project/denyWife", wife);
 
         }
+
+
+        function deleteUserById(userId){
+            return $http.delete ("/api/project/user/" + userId);
+        }
+
+        function updateUser (userId, user) {
+            return $http.put ("/api/project/user/" + userId, user);
+        }
+
 
     }
 })();

@@ -33,9 +33,12 @@ module.exports = function(db, mongoose) {
         findAllUsers: findAllUsers,                     //R Test
         removeCity: removeCity,                         //D
         addCityWife: addCityWife,                       //U
+        getUnverified: getUnverified,                    //R
+        verifyWife: verifyWife,
+        denyWife: denyWife,
 
-        updateUser: updateUser,                         //U
-        updateUserAdmin: updateUserAdmin,               //U
+        //updateUser: updateUser,                         //U
+        //updateUserAdmin: updateUserAdmin,               //U
         deleteUser: deleteUser                          //D Test
         //any other necessary ones to implement here, look at CRUD requirements (believe all are included)
     };
@@ -48,6 +51,18 @@ module.exports = function(db, mongoose) {
 
         //use q to defer the response
         var deferred = q.defer();
+
+        var citiesToAdd = [];
+        for (var j = 0; j < city.length; j++) {
+            var cityToAdd = {
+                city: city[j],
+                View: false,
+                Season: 0,
+                Episode: 0
+            };
+            citiesToAdd.push(cityToAdd);
+        }
+        user.cities = citiesToAdd;
 
         UserModelP.create(user, function (err, doc) {
 
@@ -63,11 +78,12 @@ module.exports = function(db, mongoose) {
         return deferred.promise;
     }
 
+    //TODO a lot of these functions can be simplified if I used the findUserByCredentials function rather than
+    //use the find search each time
     function addCities(userIn, username, password) {
 
         var deferred = q.defer();
 
-        //find user by username and password
         UserModelP.find
         ({
             $and: [{username: username}, {password: password}]
@@ -104,7 +120,6 @@ module.exports = function(db, mongoose) {
 
         return deferred.promise;
 
-
     }
 
 
@@ -112,7 +127,6 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        //find user by username and password
         UserModelP.find
         ({
             $and: [{username: username}, {password: password}]
@@ -151,7 +165,6 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        //find user by username and password
         UserModelP.find({
             $and: [{username: username}, {password: password}]
         }, function (err, user) {
@@ -192,7 +205,6 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        //find user by username and password
         UserModelP.find({
             $and: [{username: username}, {password: password}]
         }, function (err, user) {
@@ -232,10 +244,8 @@ module.exports = function(db, mongoose) {
 
     function addCityWife(wifeInfo, username, password) {
 
-
         var deferred = q.defer();
 
-        //find user by username and password
         UserModelP.find({
             $and: [{username: username}, {password: password}]
         }, function (err, user) {
@@ -243,11 +253,10 @@ module.exports = function(db, mongoose) {
                 deferred.reject(err);
             } else {
 
-
                 UserModelP.update({_id: user[0]._id}, {
                     $set: {
                         name: wifeInfo.name,
-                        city: wifeInfo.city
+                        city: wifeInfo.City
                     }
                 }, function (err, response) {
                     if (err) {
@@ -268,7 +277,6 @@ module.exports = function(db, mongoose) {
 
         var deferred = q.defer();
 
-        //find user by username
 
         UserModelP.find({
             username: {$in: username}
@@ -277,6 +285,61 @@ module.exports = function(db, mongoose) {
                 deferred.reject(err);
             } else {
                 deferred.resolve(users);
+            }
+        });
+
+        return deferred.promise;
+
+    }
+
+    function getUnverified(){
+
+        var deferred = q.defer();
+
+        UserModelP.find({
+            $and: [{roles: ['Housewife']},{verified: false}]
+        }, function (err, users) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+                deferred.resolve(users);
+            }
+        });
+
+        return deferred.promise;
+    }
+
+    function verifyWife(wife){
+        var deferred = q.defer();
+
+        UserModelP.update({_id: wife._id},{$set:{
+            verified: true
+        }}, function (err, wife) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+                deferred.resolve(wife);
+            }
+        });
+
+        return deferred.promise;
+
+    }
+
+    //When wife is denied, they are demoted to a fan
+    function denyWife(wife){
+        var deferred = q.defer();
+
+        UserModelP.update({_id: wife._id},{$set:{
+            roles: ['Fan'],
+        }}, function (err, wife) {
+            if (err) {
+                deferred.reject(err);
+            } else {
+
+                deferred.resolve(wife);
             }
         });
 
@@ -339,62 +402,7 @@ module.exports = function(db, mongoose) {
 
     }
 
-    //takes id and object instance as arguments, finds the object with id
-    //update the found instance, return found instance, otherwise null?
-    function updateUser(userId, updatedUser) {
 
-        var deferred = q.defer();
-
-        UserModelP.update({_id: userId},{$set:{
-                name: updatedUser.name,
-                city: updatedUser.city,
-                username: updatedUser.username,
-                password: updatedUser.password,
-                email: updatedUser.email,
-                cities: updateUser.cities
-            }
-            },
-            function (err, user) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-                    deferred.resolve(findUserByID(userId));
-                }
-            });
-
-
-
-        return deferred.promise;
-
-    }
-
-
-    function updateUserAdmin(userId, updatedUser) {
-
-        var deferred = q.defer();
-
-        UserModelP.update({_id: userId},{$set:{
-                name: updatedUser.name,
-                city: updatedUser.city,
-                username: updatedUser.username,
-                password: updatedUser.password,
-                email: updatedUser.email,
-                roles: updateUser.roles
-            }
-            },
-            function (err, user) {
-                if (err) {
-                    deferred.reject(err);
-                } else {
-                    deferred.resolve(findUserByID(userId));
-                }
-            });
-
-
-
-        return deferred.promise;
-
-    }
 
     //should accept an ID as an argument, remove instance of object with that ID,
     //return updated list?

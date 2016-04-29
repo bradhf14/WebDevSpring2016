@@ -36,9 +36,6 @@
     "q": "^1.4.1",
     "uuid": "^2.0.2"
   },
-  "scripts": {
-    "start": "node server.js"
-  },
   "devDependencies": {},
   "bundleDependencies": [],
   "private": true,

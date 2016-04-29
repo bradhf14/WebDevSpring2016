@@ -34,6 +34,9 @@
     "passport-local": "^1.0.0",
     "uuid": "^2.0.2"
   },
+  "scripts": {
+    "start": "node server.js"
+  },
   "devDependencies": {},
   "bundleDependencies": [],
   "private": true,

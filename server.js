@@ -17,6 +17,7 @@ var db = mongoose.connect('mongodb://localhost/NewDB');
 //var db2 = mongoose.connect('mongodb://localhost/ProjectDB');
 
 //"Figure this out later";//mongoose.connect(connectionString);
+connectionString = process.env.OPENSHIFT_MONGODB_DB_URL + process.env.OPENSHIFT_APP_NAME;
 
 //TODO figure out how to attach schemas
 
